@@ -1,0 +1,16 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-template-statex\logs\master.txt
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}22 Nov 2017, 12:00:59
+{txt}
+{com}. log using "$logs\master.smcl", replace
+{err}log file already open
+{txt}{search r(604), local:r(604);}
+
+end of do-file
+
+{search r(604), local:r(604);}
+
+{com}. 
