@@ -1,6 +1,6 @@
 
 ******************
-*** Title: 
+*** Title: Add the title of the project
 ******************
 
 clear all
@@ -14,17 +14,24 @@ version 14
 *** Set up globals
 ******************
 
+* Adjust these according to the project
+
 global raw "M:\Berlin - Stata\PG\general-raw"
 global project "N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-template-statex"
 
-global data "$project\data"
-global logs "$project\logs"
-
 global noise "qui"
+
+global graphstyle "graphregion(color(white)) legend(region(lcolor(white))) bgcolor(white) ylabel(, glwidth(thin) glpattern(dash) glcolor(gs10))"
+
+******************
+*** Install required packages
+******************
+
+capture ssc install writepsfrag
 
 ***
 
-* Notes: 
+* Notes: Add an explanation of the project
 
 
 *
@@ -44,7 +51,7 @@ global noise "qui"
 ******************
 *** Start the log
 ******************
-log using "$logs\master.txt", replace
+log using "$project\logs\master.txt", replace
 
 
 *     /\    
@@ -53,15 +60,20 @@ log using "$logs\master.txt", replace
 *  / ____ \ 
 * /_/    \_\
 *
-*** 
+*** Add a description of this part
 ****************************************************************************
 
-* To do: 
-* 1. Fill in title
-* 2. Adjust globals
-* 3. Write a short description of the project
-* 4. Whenever a do-file exceeds several pages it needs to be stored as code.
-* 5. Tables and figures have unchanging names across all files.
+* Add a description what this do-file does. 
+
+timer on 1
+
+*do "$project\code\anydofile.do"
+
+timer off 1
+timer list 
+timer clear
+
+* Takes x seconds // Add the time here. 
 
 ****************************************************************************
 
@@ -80,11 +92,10 @@ log using "$logs\master.txt", replace
 * | |_) |
 * |____/ 
 *
-*** 
+*** Add a description of this part
 ****************************************************************************
 
 ****************************************************************************
-
 
 ******************
 *** End the log

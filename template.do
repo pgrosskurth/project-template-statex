@@ -1,6 +1,6 @@
 
 ******************
-*** Title: 
+*** Title: Add the title of the project
 ******************
 
 clear all
@@ -14,23 +14,33 @@ version 14
 *** Set up globals
 ******************
 
-global root "M:\Berlin - Stata\FNG\DATA"
+* Adjust these according to the project
 
-global rawdata "$root\rawdata"
-global prepdata "$root\prepdata"
-global workdata "$root\workdata"
-global scripts "$root\do-files\Philipp"
+global raw "M:\Berlin - Stata\PG\general-raw"
+global project "N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-template-statex"
 
 global noise "qui"
 
-****************************************************************************
-** Privileged and confidential
-** Description:
-****************************************************************************
+global graphstyle "graphregion(color(white)) legend(region(lcolor(white))) bgcolor(white) ylabel(, glwidth(thin) glpattern(dash) glcolor(gs10))"
+
+* color palette:
+* bar(1, color(maroon)) 
+* bar(2, color(edkblue)) 
+* bar(3, color("237 244 250")) 
+* bar(4, color("197 219 237")) 
+* bar(5, color("159 196 225")) 
+* bar(6, color("123 173 215")) 
+* bar(7, color(eltgreen)) 
+
+******************
+*** Install required packages
+******************
+
+capture ssc install writepsfrag
 
 ***
 
-* Notes: 
+* Notes: If you want to change this template do it on the master version.
 
 
 *
@@ -39,36 +49,36 @@ global noise "qui"
 *****
 	* Structural overview
 
-	** A - 
-	*		
+	** A - Copy the description from below
+	*		Add some more explanation if needed 	
 
-	** B - 
-	*		
+	** B - Copy the description from below
+	*		Add some more explanation if needed 	
 
-	** C - 
-	*		
+	** C - Copy the description from below
+	*		Add some more explanation if needed 	
 
-	** D - 
-	*		
+	** D - Copy the description from below
+	*		Add some more explanation if needed 	
 
-	** E - 
-	*		
+	** E - Copy the description from below
+	*		Add some more explanation if needed 	
 
-	** F - 
-	*
+	** F - Copy the description from below
+	*		Add some more explanation if needed 	
 
-	** G - 
-	*		
-			
-	** H -  
-	*
+	** G - Copy the description from below
+	*		Add some more explanation if needed 	
 
-	** I - 
-	*
+	** H - Copy the description from below
+	*		Add some more explanation if needed 	
 
-	** J - 
-	*
+	** I - Copy the description from below
+	*		Add some more explanation if needed 	
 	
+	** J - Copy the description from below
+	*		Add some more explanation if needed 	
+
 	** K - Bonus Code
 	*		
 *****
@@ -76,7 +86,16 @@ global noise "qui"
 ***
 *
 
+******************
+*** Start the log
+******************
+log using "$project\logs\filename.txt", replace // adjust the filename here!
 
+
+******************
+*** End the log
+******************
+log close 
 
 *     /\    
 *    /  \   
@@ -84,8 +103,67 @@ global noise "qui"
 *  / ____ \ 
 * /_/    \_\
 *
-*** 
+*** Add a description of this part
 ****************************************************************************
+
+*** Template for generating a figure with latex font:
+
+graph bar (asis) stable_p stack, stack ///
+over(year, reverse label(labgap(2)) relabel(1 "2002" 2 " " 3 "2004" 4 " " 5 "2006" 6 " " 7 "2008" 8 " " 9 "2010" 10 " " 11 "2012")) ///
+title("Ownership information stability, 2012-2002") b1title("Year", margin(small)) ///
+$graphstyle bar(1, color(edkblue)) bar(2, color(maroon)) legend(rows(1))  ///
+ytitle("Share of constant information", margin(medium)) 
+
+graph export "$project\output\figurename.eps", replace 
+graph export "$project\output\figurename.png", replace height(1000)
+writepsfrag2 "$project\output\figurename.eps" using "$project\output\figurename.tex", replace textsize(\normalsize) // needs Latex filepath!
+
+
+
+*** Template for producing a table of estimates in latex
+* Adjust this part according to the number of estimates and coefficients (table width)
+* \begin{tabular}{@{\extracolsep{\fill} }l*{10}{Cd{2.6}}}
+
+# d ;
+esttab m1 m2 m3
+	using "$project\output\tablename.tex" ,
+	booktabs replace not b(3) star( * 0.10 ** 0.05 *** 0.01 ) 
+	mtitles("ln(TFAS)" "ln(TFAS)" "ln(TFAS)")
+	keep (treat1 treat2 MNE_2012Xtreat1 MNE_2012Xtreat2 MNE_A_2012Xtreat1 MNE_A_2012Xtreat2 MNE_B_2012Xtreat1 MNE_B_2012Xtreat2) ///
+	stats(N_g, labels("Firms") layout("\multicolumn{1}{c}{@}") fmt(0) ) substitute(\_ _) label
+
+prehead( 
+	\label{tab:d1m5TFAS}
+	\resizebox{!}{!}{
+	\begin{tabular}{@{\extracolsep{\fill} }l*{10}{Cd{2.6}}}
+	\toprule 
+	)
+	
+postfoot( "\bottomrule 
+	\multicolumn{@span}{l}{\tiny Significance levels: $\ast$ p \textless 0.10, $\ast\ast$ p \textless 0.05, $\ast\ast\ast$ p \textless 0.01} \\
+	\multicolumn{@span}{l}{\tiny Standard errors are clustered on the firm level.} \\
+	\multicolumn{@span}{l}{\tiny Yearly fixed effects and firm-level fixed effects included, but not shown.} \\
+	\end{tabular}
+	}
+	" ) ;	
+# d cr
+
+*** Template for adding another .do-file to the master.
+
+
+* Add a description what this do-file does. 
+
+timer on 1
+
+*do "$project\code\anydofile.do"
+
+timer off 1
+timer list 
+timer clear
+
+* Takes x seconds // Add the time here. 
+
+
 
 * Numbers: ASCII generator, ogre type font
 
@@ -96,7 +174,7 @@ global noise "qui"
 * | |
 * |_|
 *
-***  
+***  Add a description of this part
 
 ***
 *  ____  
@@ -105,7 +183,7 @@ global noise "qui"
 *  / __/ 
 * |_____|
 *       
-***
+*** Add a description of this part
 
 ***
 *  _____ 
@@ -114,7 +192,7 @@ global noise "qui"
 *  ___) |
 * |____/ 
 *       
-***
+*** Add a description of this part
 
 ***
 *  _  _   
@@ -123,7 +201,7 @@ global noise "qui"
 * |__   _|
 *    |_|  
 *
-***
+*** Add a description of this part
 
 ***
 *  ____  
@@ -132,7 +210,7 @@ global noise "qui"
 *  ___) |
 * |____/ 
 *
-***     
+*** Add a description of this part     
 
 ***
 *   __   
@@ -141,7 +219,7 @@ global noise "qui"
 * | (_) |
 *  \___/ 
 *       
-***  
+*** Add a description of this part 
 
 ***
 * _____ 
@@ -150,7 +228,7 @@ global noise "qui"
 *   / /  
 *  /_/   
 *       
-***
+*** Add a description of this part
 
 ***
 *   ___  
@@ -158,8 +236,8 @@ global noise "qui"
 *  / _ \ 
 * | (_) |
 *  \___/ 
-*       
-***
+*        
+*** Add a description of this part
 
 ***
 *   ___  
@@ -168,7 +246,7 @@ global noise "qui"
 *  \__, |
 *    /_/ 
 *
-*** 
+*** Add a description of this part
 
 ***
 *  _  ___  
@@ -177,7 +255,7 @@ global noise "qui"
 * | | |_| |
 * |_|\___/ 
 *         
-***
+*** Add a description of this part
 
 ***
 *  _ _ 
@@ -186,7 +264,7 @@ global noise "qui"
 * | | |
 * |_|_|
 *     
-***
+*** Add a description of this part
 
 ***
 *  _ ____  
@@ -195,7 +273,7 @@ global noise "qui"
 * | |/ __/ 
 * |_|_____|
 *         
-***		 
+***	Add a description of this part	 
 
 ***
 *  _ _____ 
@@ -204,7 +282,7 @@ global noise "qui"
 * | |___) |
 * |_|____/ 
 *          
-***
+*** Add a description of this part
 
 ***
 *  _ _  _   
@@ -213,7 +291,7 @@ global noise "qui"
 * | |__   _|
 * |_|  |_|  
 *
-***
+*** Add a description of this part
 
 
 ***
@@ -223,7 +301,7 @@ global noise "qui"
 * | |___) |
 * |_|____/ 
 *         
-***
+*** Add a description of this part
 
 ***
 *  _  __   
@@ -232,7 +310,7 @@ global noise "qui"
 * | | (_) |
 * |_|\___/ 
 *         
-***
+*** Add a description of this part
 
 		 
 ****************************************************************************
@@ -252,7 +330,7 @@ global noise "qui"
 * | |_) |
 * |____/ 
 *
-*** 
+*** Add a description of this part
 ****************************************************************************
 
 ****************************************************************************
@@ -272,7 +350,7 @@ global noise "qui"
 * | |____ 
 *  \_____|
 *
-*** 
+*** Add a description of this part
 ****************************************************************************
 
 ****************************************************************************
@@ -292,7 +370,7 @@ global noise "qui"
 * | |__| |
 * |_____/ 
 *
-*** 
+*** Add a description of this part
 ****************************************************************************
 
 ****************************************************************************
@@ -312,7 +390,7 @@ global noise "qui"
 * | |____ 
 * |______|
 *
-*** 
+*** Add a description of this part
 ****************************************************************************
 
 ****************************************************************************
@@ -332,7 +410,7 @@ global noise "qui"
 * | |     
 * |_|     
 *
-*** 
+*** Add a description of this part
 ****************************************************************************
  
 ****************************************************************************
@@ -352,7 +430,7 @@ global noise "qui"
 * | |__| |
 *  \_____|
 *
-***
+*** Add a description of this part
 ****************************************************************************
 
 ****************************************************************************
@@ -372,7 +450,7 @@ global noise "qui"
 * | |  | |
 * |_|  |_|
 *
-***
+*** Add a description of this part
 ****************************************************************************
 
 ****************************************************************************
@@ -392,7 +470,7 @@ global noise "qui"
 *  _| |_ 
 * |_____|
 *
-*** 
+*** Add a description of this part 
 ****************************************************************************
 
 ****************************************************************************
@@ -411,7 +489,7 @@ global noise "qui"
 * /\__| |
 * \_____|
 *
-***
+*** Add a description of this part
 ****************************************************************************
 
 ****************************************************************************
