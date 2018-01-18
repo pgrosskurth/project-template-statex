@@ -26,11 +26,6 @@ version 14
 ***
 *
 
-******************
-*** Start the log
-******************
-capture log using "$project\logs\filename.txt", replace // insert filename
-
 
 *     /\    
 *    /  \   
@@ -62,8 +57,3 @@ capture log using "$project\logs\filename.txt", replace // insert filename
 ****************************************************************************
 
 ****************************************************************************
-
-******************
-*** End the log
-******************
-capture log close 

@@ -13,4 +13,5538 @@ end of do-file
 
 {search r(604), local:r(604);}
 
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
 {com}. 
+. global raw "M:\Berlin - Stata\PG\general-raw"
+{txt}
+{com}. global project "N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-template-statex"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. use "$raw\IMF\IMF_IFS_PPI.dta", clear
+{txt}
+{com}. 
+. drop if year > 2012
+{txt}(174 observations deleted)
+
+{com}. 
+. replace countryiso = "AM" if countryname == "Armenia, Republic of"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "HK" if countryname == "China, P.R.: Hong Kong"
+{txt}(11 real changes made)
+
+{com}. drop if countryname == "Euro Area"
+{txt}(11 observations deleted)
+
+{com}. replace countryiso = "GP" if countryname == "France (Guadeloupe)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "MQ" if countryname == "France (Martinique)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "RE" if countryname == "France (Reunion)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "KG" if countryname == "Kyrgyz Republic"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "IC" if countryname == "Spain (Canary Islands)"
+{txt}(11 real changes made)
+
+{com}. 
+. preserve
+{txt}
+{com}. keep countryname countryiso year 
+{txt}
+{com}. duplicates drop countryname year, force
+
+{p 0 4}{txt}Duplicates in terms of {res} countryname year{p_end}
+
+{txt}(0 observations are duplicates)
+
+{com}. tempfile convergence
+{txt}
+{com}. save "$project\temp\convergence.dta"
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-template-statex\temp\convergence.dta saved
+
+{com}. restore
+{txt}
+{com}. 
+. kountry countryiso, from(iso2c) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. list if MARKER == 0
+{txt}
+     {c TLC}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c TRC}
+     {c |} {res}           countryname   year           C    C_percent   countr~o   NAMES_~D   MARKER {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+793. {c |} {res}Spain (Canary Islands)   2002   78.133565    .00617483         IC         ic        0 {txt}{c |}
+794. {c |} {res}Spain (Canary Islands)   2003   79.242316    .01419046         IC         ic        0 {txt}{c |}
+795. {c |} {res}Spain (Canary Islands)   2004   81.953402     .0342126         IC         ic        0 {txt}{c |}
+796. {c |} {res}Spain (Canary Islands)   2005   85.822988    .04721691         IC         ic        0 {txt}{c |}
+797. {c |} {res}Spain (Canary Islands)   2006   90.451242     .0539279         IC         ic        0 {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+798. {c |} {res}Spain (Canary Islands)   2007   93.705911    .03598258         IC         ic        0 {txt}{c |}
+799. {c |} {res}Spain (Canary Islands)   2008   99.843333    .06549663         IC         ic        0 {txt}{c |}
+800. {c |} {res}Spain (Canary Islands)   2009   96.445414   -.03403251         IC         ic        0 {txt}{c |}
+801. {c |} {res}Spain (Canary Islands)   2010         100    .03685594         IC         ic        0 {txt}{c |}
+802. {c |} {res}Spain (Canary Islands)   2011   106.94067    .06940672         IC         ic        0 {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+803. {c |} {res}Spain (Canary Islands)   2012   110.97918    .03776396         IC         ic        0 {txt}{c |}
+     {c BLC}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c BRC}
+
+{com}. replace NAMES_STD = countryname if MARKER == 0 // add original canary islands name
+{txt}(11 real changes made)
+
+{com}. 
+. drop countryname MARKER
+{txt}
+{com}. 
+. save "$project\data\IMF_IFS_PPI_iso.dta", replace
+{txt}(note: file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-template-statex\data\IMF_IFS_PPI_iso.dta not found)
+file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-template-statex\data\IMF_IFS_PPI_iso.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. global raw "M:\Berlin - Stata\PG\general-raw"
+{txt}
+{com}. global project "N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. use "$raw\IMF\IMF_IFS_PPI.dta", clear
+{txt}
+{com}. 
+. drop if year > 2012
+{txt}(174 observations deleted)
+
+{com}. 
+. replace countryiso = "AM" if countryname == "Armenia, Republic of"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "HK" if countryname == "China, P.R.: Hong Kong"
+{txt}(11 real changes made)
+
+{com}. drop if countryname == "Euro Area"
+{txt}(11 observations deleted)
+
+{com}. replace countryiso = "GP" if countryname == "France (Guadeloupe)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "MQ" if countryname == "France (Martinique)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "RE" if countryname == "France (Reunion)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "KG" if countryname == "Kyrgyz Republic"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "IC" if countryname == "Spain (Canary Islands)"
+{txt}(11 real changes made)
+
+{com}. 
+. preserve
+{txt}
+{com}. keep countryname countryiso year 
+{txt}
+{com}. duplicates drop countryname year, force
+
+{p 0 4}{txt}Duplicates in terms of {res} countryname year{p_end}
+
+{txt}(0 observations are duplicates)
+
+{com}. tempfile convergence
+{txt}
+{com}. save "$project\temp\convergence.dta"
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\temp\convergence.dta saved
+
+{com}. restore
+{txt}
+{com}. 
+. kountry countryiso, from(iso2c) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. list if MARKER == 0
+{txt}
+     {c TLC}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c TRC}
+     {c |} {res}           countryname   year           C    C_percent   countr~o   NAMES_~D   MARKER {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+793. {c |} {res}Spain (Canary Islands)   2002   78.133565    .00617483         IC         ic        0 {txt}{c |}
+794. {c |} {res}Spain (Canary Islands)   2003   79.242316    .01419046         IC         ic        0 {txt}{c |}
+795. {c |} {res}Spain (Canary Islands)   2004   81.953402     .0342126         IC         ic        0 {txt}{c |}
+796. {c |} {res}Spain (Canary Islands)   2005   85.822988    .04721691         IC         ic        0 {txt}{c |}
+797. {c |} {res}Spain (Canary Islands)   2006   90.451242     .0539279         IC         ic        0 {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+798. {c |} {res}Spain (Canary Islands)   2007   93.705911    .03598258         IC         ic        0 {txt}{c |}
+799. {c |} {res}Spain (Canary Islands)   2008   99.843333    .06549663         IC         ic        0 {txt}{c |}
+800. {c |} {res}Spain (Canary Islands)   2009   96.445414   -.03403251         IC         ic        0 {txt}{c |}
+801. {c |} {res}Spain (Canary Islands)   2010         100    .03685594         IC         ic        0 {txt}{c |}
+802. {c |} {res}Spain (Canary Islands)   2011   106.94067    .06940672         IC         ic        0 {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+803. {c |} {res}Spain (Canary Islands)   2012   110.97918    .03776396         IC         ic        0 {txt}{c |}
+     {c BLC}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c BRC}
+
+{com}. replace NAMES_STD = countryname if MARKER == 0 // add original canary islands name
+{txt}(11 real changes made)
+
+{com}. 
+. drop countryname MARKER
+{txt}
+{com}. 
+. save "$project\data\IMF_IFS_PPI_iso.dta", replace
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\data\IMF_IFS_PPI_iso.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. use "$raw\taxes\corporate_tax_rate_final_clean.dta", clear
+{txt}
+{com}. 
+. merge m:1 countryname year using "$project\temp\convergence.dta" 
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,936
+{txt}{col 9}from master{col 30}{res}           1,837{txt}  (_merge==1)
+{col 9}from using{col 30}{res}              99{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             847{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. kountry countryiso, from(iso2c) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. rename MARKER iso_MARKER
+{res}{txt}
+{com}. rename NAMES_STD iso_NAMES_STD
+{res}{txt}
+{com}. 
+. kountry countryname, from(other) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. 
+. gen str country = ""
+{txt}(2,783 missing values generated)
+
+{com}. replace country = NAMES_STD if MARKER == 1
+{txt}variable {bf}country{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str32{sf}
+{txt}(2,486 real changes made)
+
+{com}. replace country = iso_NAMES_STD if iso_MARKER == 1
+{txt}(66 real changes made)
+
+{com}. 
+. drop iso_NAMES_STD-MARKER
+{txt}
+{com}. 
+. tab countryname if country == ""
+
+                   {txt}Country name, string {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+                             Antarctica {c |}{res}         11        4.76        4.76
+{txt}                          Bouvet Island {c |}{res}         11        4.76        9.52
+{txt}         British Indian Ocean Territory {c |}{res}         11        4.76       14.29
+{txt}                             Cabo Verde {c |}{res}         11        4.76       19.05
+{txt}                          Côte d'Ivoire {c |}{res}         11        4.76       23.81
+{txt}            French Southern Territories {c |}{res}         11        4.76       28.57
+{txt}                               Guernsey {c |}{res}         11        4.76       33.33
+{txt}      Heard Island And Mcdonald Islands {c |}{res}         11        4.76       38.10
+{txt}                            Isle Of Man {c |}{res}         11        4.76       42.86
+{txt}                                 Jersey {c |}{res}         11        4.76       47.62
+{txt}Macedonia, The Former Yugoslav Republ.. {c |}{res}         11        4.76       52.38
+{txt}                         Norfolk Island {c |}{res}         11        4.76       57.14
+{txt}               Northern Mariana Islands {c |}{res}         11        4.76       61.90
+{txt}                               Pitcairn {c |}{res}         11        4.76       66.67
+{txt}Saint Helena, Ascension and Tristan d.. {c |}{res}         11        4.76       71.43
+{txt}South Georgia And The South Sandwich .. {c |}{res}         11        4.76       76.19
+{txt}                 Spain (Canary Islands) {c |}{res}         11        4.76       80.95
+{txt}                 Svalbard And Jan Mayen {c |}{res}         11        4.76       85.71
+{txt}                                Tokelau {c |}{res}         11        4.76       90.48
+{txt}   United States Minor Outlying Islands {c |}{res}         11        4.76       95.24
+{txt}                          Åland Islands {c |}{res}         11        4.76      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}        231      100.00
+{txt}
+{com}. 
+. * I'm adding the ISO 2-digit codes manually before transforming
+. * to make sure that the conversion to a harmonized name works 
+. * https://en.wikipedia.org/wiki/ISO_3166-1
+. 
+. replace countryiso = "AQ" if countryname == "Antarctica"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "BV" if countryname == "Bouvet Island"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "IO" if countryname == "British Indian Ocean Territory"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "CV" if countryname == "Cabo Verde"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "CI" if countryname == "Côte d'Ivoire"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "TF" if countryname == "French Southern Territories"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "GG" if countryname == "Guernsey"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "HM" if countryname == "Heard Island And Mcdonald Islands"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "IM" if countryname == "Isle Of Man"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "JE" if countryname == "Jersey"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "MK" if countryname == "Macedonia, The Former Yugoslav Republic Of"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "NF" if countryname == "Norfolk Island"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "MP" if countryname == "Northern Mariana Islands"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "PN" if countryname == "Pitcairn"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "SH" if countryname == "Saint Helena, Ascension and Tristan da Cunha"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "GS" if countryname == "South Georgia And The South Sandwich Islands"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "IC" if countryname == "Spain (Canary Islands)" // not in the list, already replaced
+{txt}(0 real changes made)
+
+{com}. replace countryiso = "SJ" if countryname == "Svalbard And Jan Mayen"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "TK" if countryname == "Tokelau"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "UM" if countryname == "United States Minor Outlying Islands"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "AX" if countryname == "Åland Islands"
+{txt}(11 real changes made)
+
+{com}. 
+. kountry countryiso, from(iso2c) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. 
+. replace country = NAMES_STD if country == "" & MARKER == 1
+{txt}(44 real changes made)
+
+{com}. 
+. drop NAMES_STD MARKER
+{txt}
+{com}. 
+. tab countryname if country == ""
+
+                   {txt}Country name, string {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+                             Antarctica {c |}{res}         11        5.88        5.88
+{txt}                          Bouvet Island {c |}{res}         11        5.88       11.76
+{txt}         British Indian Ocean Territory {c |}{res}         11        5.88       17.65
+{txt}            French Southern Territories {c |}{res}         11        5.88       23.53
+{txt}                               Guernsey {c |}{res}         11        5.88       29.41
+{txt}      Heard Island And Mcdonald Islands {c |}{res}         11        5.88       35.29
+{txt}                            Isle Of Man {c |}{res}         11        5.88       41.18
+{txt}                                 Jersey {c |}{res}         11        5.88       47.06
+{txt}                         Norfolk Island {c |}{res}         11        5.88       52.94
+{txt}               Northern Mariana Islands {c |}{res}         11        5.88       58.82
+{txt}                               Pitcairn {c |}{res}         11        5.88       64.71
+{txt}South Georgia And The South Sandwich .. {c |}{res}         11        5.88       70.59
+{txt}                 Spain (Canary Islands) {c |}{res}         11        5.88       76.47
+{txt}                 Svalbard And Jan Mayen {c |}{res}         11        5.88       82.35
+{txt}                                Tokelau {c |}{res}         11        5.88       88.24
+{txt}   United States Minor Outlying Islands {c |}{res}         11        5.88       94.12
+{txt}                          Åland Islands {c |}{res}         11        5.88      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}        187      100.00
+{txt}
+{com}. 
+. ** overwriting the remaining unharmonizable names with the original
+. 
+. replace country = countryname if country == "" 
+{txt}variable {bf}country{sf} was {bf}{res}str32{sf}{txt} now {bf}{res}str44{sf}
+{txt}(187 real changes made)
+
+{com}. count if country == "" // all good now
+  {res}0
+{txt}
+{com}. count if countryiso == "" // since we didn't have iso2c codes in the original there are many left
+  {res}1,617
+{txt}
+{com}. 
+. drop countryiso
+{txt}
+{com}. 
+. rename country country_STD
+{res}{txt}
+{com}. label var country_STD "Country names, standardized with kountry"
+{txt}
+{com}. drop _merge countryname 
+{txt}
+{com}. order country_STD year
+{txt}
+{com}. sort country_STD year
+{txt}
+{com}. 
+. * checking for unique identification
+. egen unique_id = group(country_STD year)
+{txt}
+{com}. duplicates tag unique_id, gen(dup)
+
+{p 0 4}{txt}Duplicates in terms of {res} unique_id{p_end}
+{txt}
+{com}. tab dup
+
+        {txt}dup {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}      2,607       93.68       93.68
+{txt}          1 {c |}{res}        176        6.32      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,783      100.00
+{txt}
+{com}. tab country_STD if dup == 1
+
+       {txt}Country names, standardized with {c |}
+                                kountry {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+                                Armenia {c |}{res}         22       12.50       12.50
+{txt}                              Hong Kong {c |}{res}         22       12.50       25.00
+{txt}                                   Iran {c |}{res}         22       12.50       37.50
+{txt}                        Kyrgyz Republic {c |}{res}         22       12.50       50.00
+{txt}                              Macedonia {c |}{res}         22       12.50       62.50
+{txt}                            South Korea {c |}{res}         22       12.50       75.00
+{txt}                    Trinidad and Tobago {c |}{res}         22       12.50       87.50
+{txt}                              Venezuela {c |}{res}         22       12.50      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}        176      100.00
+{txt}
+{com}. 
+. * resolving errors
+. egen filled = rowtotal(OECD_MY_cit-TF_tax_com)
+{txt}
+{com}. bysort country_STD year: egen something = max(filled)
+{txt}
+{com}. replace something = 1 if something != 0
+{txt}(1,150 real changes made)
+
+{com}. drop if something == 1 & filled == 0
+{txt}(52 observations deleted)
+
+{com}. duplicates drop unique_id, force
+
+{p 0 4}{txt}Duplicates in terms of {res} unique_id{p_end}
+
+{txt}(36 observations deleted)
+
+{com}. drop unique_id-something
+{txt}
+{com}. 
+. egen unique_id = group(country_STD year)
+{txt}
+{com}. duplicates tag unique_id, gen(dup)
+
+{p 0 4}{txt}Duplicates in terms of {res} unique_id{p_end}
+{txt}
+{com}. tab dup
+
+        {txt}dup {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}      2,695      100.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,695      100.00
+{txt}
+{com}. tab country_STD if dup == 1
+{txt}no observations
+
+{com}. * clean.
+. 
+. tab year 
+
+      {txt}Year, {c |}
+  2002-2012 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       2002 {c |}{res}        245        9.09        9.09
+{txt}       2003 {c |}{res}        245        9.09       18.18
+{txt}       2004 {c |}{res}        245        9.09       27.27
+{txt}       2005 {c |}{res}        245        9.09       36.36
+{txt}       2006 {c |}{res}        245        9.09       45.45
+{txt}       2007 {c |}{res}        245        9.09       54.55
+{txt}       2008 {c |}{res}        245        9.09       63.64
+{txt}       2009 {c |}{res}        245        9.09       72.73
+{txt}       2010 {c |}{res}        245        9.09       81.82
+{txt}       2011 {c |}{res}        245        9.09       90.91
+{txt}       2012 {c |}{res}        245        9.09      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,695      100.00
+{txt}
+{com}. * 245 countries.
+. 
+. drop unique_id-dup
+{txt}
+{com}. 
+. save "$project\data\OECD_taxes_clean.dta", replace
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\data\OECD_taxes_clean.dta saved
+
+{com}. 
+. * Testing the differences in the variables
+. 
+. gen diff = 1 if TF_tax_com != OECD_MY_cit & OECD_MY_cit != .
+{txt}(2,528 missing values generated)
+
+{com}. tab year diff
+
+     {txt}Year, {c |}    diff
+ 2002-2012 {c |}         1 {c |}     Total
+{hline 11}{c +}{hline 11}{c +}{hline 10}
+      2002 {c |}{res}        15 {txt}{c |}{res}        15 
+{txt}      2003 {c |}{res}        14 {txt}{c |}{res}        14 
+{txt}      2004 {c |}{res}        19 {txt}{c |}{res}        19 
+{txt}      2005 {c |}{res}        15 {txt}{c |}{res}        15 
+{txt}      2006 {c |}{res}        18 {txt}{c |}{res}        18 
+{txt}      2007 {c |}{res}        16 {txt}{c |}{res}        16 
+{txt}      2008 {c |}{res}        16 {txt}{c |}{res}        16 
+{txt}      2009 {c |}{res}        15 {txt}{c |}{res}        15 
+{txt}      2010 {c |}{res}        13 {txt}{c |}{res}        13 
+{txt}      2011 {c |}{res}        12 {txt}{c |}{res}        12 
+{txt}      2012 {c |}{res}        14 {txt}{c |}{res}        14 
+{txt}{hline 11}{c +}{hline 11}{c +}{hline 10}
+     Total {c |}{res}       167 {txt}{c |}{res}       167 
+
+{txt}
+{com}. list if year == 2012 & diff == 1
+{txt}
+      {c TLC}{hline 15}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 6}{c TRC}
+      {c |} {res}  country_STD   year   OECD_M~t   OECD_M~m   TF_tax~m   diff {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 6}{c RT}
+ 231. {c |} {res}      Belgium   2012         33      33.99      33.99      1 {txt}{c |}
+ 429. {c |} {res}       Canada   2012         15       26.1         26      1 {txt}{c |}
+ 484. {c |} {res}        Chile   2012         20         20       18.5      1 {txt}{c |}
+ 814. {c |} {res}       France   2012      34.43      34.43       34.4      1 {txt}{c |}
+ 891. {c |} {res}      Germany   2012     15.825     30.175      29.48      1 {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 6}{c RT}
+1177. {c |} {res}        Italy   2012       27.5       27.5       31.4      1 {txt}{c |}
+1199. {c |} {res}        Japan   2012         30      39.54      38.01      1 {txt}{c |}
+1375. {c |} {res}   Luxembourg   2012      22.05       28.8       28.8      1 {txt}{c |}
+1705. {c |} {res}  New Zealand   2012         28         28         28      1 {txt}{c |}
+1793. {c |} {res}       Norway   2012         28         28         28      1 {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 6}{c RT}
+1925. {c |} {res}     Portugal   2012         30       31.5       31.5      1 {txt}{c |}
+2211. {c |} {res}  South Korea   2012         22       24.2       24.2      1 {txt}{c |}
+2310. {c |} {res}  Switzerland   2012        8.5     21.174       21.2      1 {txt}{c |}
+2530. {c |} {res}United States   2012         35     39.134       39.2      1 {txt}{c |}
+      {c BLC}{hline 15}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 6}{c BRC}
+
+{com}. 
+. * TF_tax_com seems to follow OECD_MY_com closely, but not OECD_MY_cit
+. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. import delimited using "$raw\corruption-perceptions-index\data\cpi.csv", clear
+{res}{text}(19 vars, 228 obs)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. ************************
+. ****** TI's CPI
+. * Original data from github, but not synchronized. 
+. * See folder for details. 
+. 
+. import delimited using "$raw\corruption-perceptions-index\data\cpi.csv", clear
+{res}{text}(19 vars, 228 obs)
+
+{com}. 
+. rename v1 Jurisdiction
+{res}{txt}
+{com}. 
+. forvalues i = 2(1)19 {c -(}
+{txt}  2{com}. 
+.         local newname = v`i'[1]
+{txt}  3{com}.         rename v`i' year`newname'
+{txt}  4{com}. 
+. {c )-}
+{res}{txt}
+{com}. *
+. 
+. * Standardize country name
+. kountry Jurisdiction, from(other) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. tab Jurisdiction if MARKER == 0
+
+                           {txt}Jurisdiction {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+                Bosnia and Herzgegovina {c |}{res}          1        5.00        5.00
+{txt}                        Congo  Republic {c |}{res}          1        5.00       10.00
+{txt}              Congo Democratic Republic {c |}{res}          1        5.00       15.00
+{txt}                         Congo Republic {c |}{res}          1        5.00       20.00
+{txt}                      Congo-Brazzaville {c |}{res}          1        5.00       25.00
+{txt}             Congo. Democratic Republic {c |}{res}          1        5.00       30.00
+{txt}                        Congo. Republic {c |}{res}          1        5.00       35.00
+{txt}                         Cote dÂ´Ivoire {c |}{res}          1        5.00       40.00
+{txt}                         Czech Republik {c |}{res}          1        5.00       45.00
+{txt}                        CÃ´te dÂ´Ivoire {c |}{res}          1        5.00       50.00
+{txt}                         CÃ´te-d'Ivoire {c |}{res}          1        5.00       55.00
+{txt}                          FYR Macedonia {c |}{res}          1        5.00       60.00
+{txt}                           Jurisdiction {c |}{res}          1        5.00       65.00
+{txt}                                 Kosovo {c |}{res}          1        5.00       70.00
+{txt}                                 Kuweit {c |}{res}          1        5.00       75.00
+{txt}Macedonia (Former Yugoslav Republic of) {c |}{res}          1        5.00       80.00
+{txt}                               Moldovaa {c |}{res}          1        5.00       85.00
+{txt}                  Palestinian Authority {c |}{res}          1        5.00       90.00
+{txt}                            Taijikistan {c |}{res}          1        5.00       95.00
+{txt}                   The FYR of Macedonia {c |}{res}          1        5.00      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}         20      100.00
+{txt}
+{com}. gen str country_STD = ""
+{txt}(228 missing values generated)
+
+{com}. replace country_STD = NAMES_STD if MARKER == 1
+{txt}variable {bf}country_STD{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str32{sf}
+{txt}(208 real changes made)
+
+{com}. 
+. * manual corrections
+. drop if Jurisdiction == "Jurisdiction"
+{txt}(1 observation deleted)
+
+{com}. replace country_STD = "Bosnia and Herzegovina" if Jurisdiction == "Bosnia and Herzgegovina"
+{txt}(1 real change made)
+
+{com}. 
+. replace country_STD = "Congo" if Jurisdiction == "Congo  Republic"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Congo" if Jurisdiction == "Congo Republic"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Congo" if Jurisdiction == "Congo. Republic"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Congo" if Jurisdiction == "Congo-Brazzaville"
+{txt}(1 real change made)
+
+{com}. 
+. replace country_STD = "Democratic Republic of Congo" if Jurisdiction == "Congo Democratic Republic"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Democratic Republic of Congo" if Jurisdiction == "Congo. Democratic Republic"
+{txt}(1 real change made)
+
+{com}. 
+. replace country_STD = "Cote d'Ivoire" if Jurisdiction == "Cote dÂ´Ivoire"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Cote d'Ivoire" if Jurisdiction == "CÃ´te dÂ´Ivoire"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Cote d'Ivoire" if Jurisdiction == "CÃ´te-d'Ivoire"
+{txt}(1 real change made)
+
+{com}. 
+. replace country_STD = "Czech Republic" if Jurisdiction == "Czech Republik"
+{txt}(1 real change made)
+
+{com}. 
+. replace country_STD = "Macedonia" if Jurisdiction == "The FYR of Macedonia"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Macedonia" if Jurisdiction == "FYR Macedonia"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Macedonia" if Jurisdiction == "Macedonia (Former Yugoslav Republic of)"
+{txt}(1 real change made)
+
+{com}. 
+. drop if Jurisdiction == "Kosovo" // no match in the standardized names
+{txt}(1 observation deleted)
+
+{com}. 
+. replace country_STD = "Moldova" if Jurisdiction == "Moldovaa"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Palestine" if Jurisdiction == "Palestinian Authority"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Tajikistan" if Jurisdiction == "Taijikistan"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Kuwait" if Jurisdiction == "Kuweit"
+{txt}(1 real change made)
+
+{com}. 
+. count if country_STD == ""
+  {res}0
+{txt}
+{com}. * all filled
+. 
+. * Cleaning duplicates
+. sort country_STD
+{txt}
+{com}. duplicates tag country_STD, gen(dup)
+
+{p 0 4}{txt}Duplicates in terms of {res} country_STD{p_end}
+{txt}
+{com}. 
+. forvalues year = 1998(1)2015 {c -(}
+{txt}  2{com}. 
+.         destring year`year', replace force
+{txt}  3{com}.         bysort country_STD: egen newyear`year' = max(year`year')
+{txt}  4{com}.         drop year`year'
+{txt}  5{com}. {c )-}
+{txt}year1998 contains nonnumeric characters; year1998 {res}replaced {txt}as {res}double
+{txt}(141 missing values generated)
+{res}{txt}(128 missing values generated)
+year1999 contains nonnumeric characters; year1999 {res}replaced {txt}as {res}double
+{txt}(127 missing values generated)
+{res}{txt}(109 missing values generated)
+year2000 contains nonnumeric characters; year2000 {res}replaced {txt}as {res}double
+{txt}(136 missing values generated)
+{res}{txt}(122 missing values generated)
+year2001 contains nonnumeric characters; year2001 {res}replaced {txt}as {res}double
+{txt}(135 missing values generated)
+{res}{txt}(121 missing values generated)
+year2002 contains nonnumeric characters; year2002 {res}replaced {txt}as {res}double
+{txt}(124 missing values generated)
+{res}{txt}(110 missing values generated)
+year2003 contains nonnumeric characters; year2003 {res}replaced {txt}as {res}double
+{txt}(93 missing values generated)
+{res}{txt}(60 missing values generated)
+year2004 contains nonnumeric characters; year2004 {res}replaced {txt}as {res}double
+{txt}(80 missing values generated)
+{res}{txt}(43 missing values generated)
+year2005 contains nonnumeric characters; year2005 {res}replaced {txt}as {res}double
+{txt}(67 missing values generated)
+{res}{txt}(30 missing values generated)
+year2006 contains nonnumeric characters; year2006 {res}replaced {txt}as {res}double
+{txt}(63 missing values generated)
+{res}{txt}(27 missing values generated)
+year2007 contains nonnumeric characters; year2007 {res}replaced {txt}as {res}double
+{txt}(46 missing values generated)
+{res}{txt}(9 missing values generated)
+year2008 contains nonnumeric characters; year2008 {res}replaced {txt}as {res}double
+{txt}(46 missing values generated)
+{res}{txt}(9 missing values generated)
+year2009 contains nonnumeric characters; year2009 {res}replaced {txt}as {res}double
+{txt}(46 missing values generated)
+{res}{txt}(8 missing values generated)
+year2010 contains nonnumeric characters; year2010 {res}replaced {txt}as {res}double
+{txt}(49 missing values generated)
+{res}{txt}(11 missing values generated)
+year2011 contains nonnumeric characters; year2011 {res}replaced {txt}as {res}double
+{txt}(44 missing values generated)
+{res}{txt}(6 missing values generated)
+year2012 contains nonnumeric characters; year2012 {res}replaced {txt}as {res}byte
+{txt}(51 missing values generated)
+{res}{txt}(13 missing values generated)
+year2013 contains nonnumeric characters; year2013 {res}replaced {txt}as {res}byte
+{txt}(50 missing values generated)
+{res}{txt}(12 missing values generated)
+year2014 contains nonnumeric characters; year2014 {res}replaced {txt}as {res}byte
+{txt}(52 missing values generated)
+{res}{txt}(15 missing values generated)
+year2015 contains nonnumeric characters; year2015 {res}replaced {txt}as {res}byte
+{txt}(59 missing values generated)
+{res}{txt}(22 missing values generated)
+
+{com}. 
+. duplicates drop country_STD, force
+
+{p 0 4}{txt}Duplicates in terms of {res} country_STD{p_end}
+
+{txt}(39 observations deleted)
+
+{com}. 
+. drop Jurisdiction NAMES_STD MARKER dup
+{txt}
+{com}. 
+. reshape long newyear, i(country_STD) j(year)
+{txt}(note: j = 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}     187   {txt}->{res}    3366
+{txt}Number of variables            {res}      19   {txt}->{res}       3
+{txt}j variable (18 values)                    ->   {res}year
+{txt}xij variables:
+{res}newyear1998 newyear1999 ... newyear2015   {txt}->   {res}newyear
+{txt}{hline 77}
+
+{com}. 
+. rename newyear TI_CPI
+{res}{txt}
+{com}. label var TI_CPI "Transparency International's CPI"
+{txt}
+{com}. 
+. *** cut to 2002-2012 
+. keep if year >= 2002 & year <= 2012
+{txt}(1,309 observations deleted)
+
+{com}. 
+. * checked by comparing histograms whether adjusting 2012 is feasible
+. * Turns out the change of methodology did alter the distribution at the very top
+. * a little, now there are more countries at the very high end, but it's not possible
+. * to disentangle the effect of a change in methodology from the performance
+. * of the countries. 
+. 
+. *** adjust 2012 to 0-10 scale
+. hist TI_CPI if year == 2012, name(g_before, replace)
+{txt}(bin={res}13{txt}, start={res}8{txt}, width={res}6.3076923{txt})
+{res}{txt}
+{com}. replace TI_CPI = TI_CPI/10 if year == 2012
+{txt}(175 real changes made)
+
+{com}. hist TI_CPI if year == 2012, name(g_after, replace)
+{txt}(bin={res}13{txt}, start={res}.8{txt}, width={res}.63076923{txt})
+{res}{txt}
+{com}. graph combine g_before g_after
+{res}{txt}
+{com}. * rescaling doesn't affect the distribution
+. 
+. hist TI_CPI, by(year)
+{res}{txt}
+{com}. * after the adjustment the distribution looks credible, but countries could have
+. * changed ranks. This adjustment is probably not perfect, but will stay for now.
+. 
+. save "$project\data\TI_CPI_clean.dta", replace
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\data\TI_CPI_clean.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. import delimited using "$raw\WDI\WDIData.csv", clear
+{res}{text}(62 vars, 409,993 obs)
+
+{com}. 
+. rename v1 countryname
+{res}{txt}
+{com}. rename v2 iso3c
+{res}{txt}
+{com}. rename v3 iname
+{res}{txt}
+{com}. rename v4 icode
+{res}{txt}
+{com}. drop v62
+{txt}
+{com}. 
+. forvalues i = 5(1)61 {c -(}
+{txt}  2{com}. 
+.         local newname = v`i'[1]
+{txt}  3{com}.         di "`newname'"
+{txt}  4{com}.         rename v`i' year`newname'
+{txt}  5{com}. 
+. {c )-}
+1960
+{res}1961
+1962
+1963
+1964
+1965
+1966
+1967
+1968
+1969
+1970
+1971
+1972
+1973
+1974
+1975
+1976
+1977
+1978
+1979
+1980
+1981
+1982
+1983
+1984
+1985
+1986
+1987
+1988
+1989
+1990
+1991
+1992
+1993
+1994
+1995
+1996
+1997
+1998
+1999
+2000
+2001
+2002
+2003
+2004
+2005
+2006
+2007
+2008
+2009
+2010
+2011
+2012
+2013
+2014
+2015
+2016
+{txt}
+{com}. *
+. 
+. drop if _n == 1
+{txt}(1 observation deleted)
+
+{com}. 
+. ******
+. *** SELECT INDICATORS OF INTEREST
+. 
+. keep if icode == "NY.GDP.PCAP.KD" | icode == "NY.GDP.MKTP.KD" | icode == "NY.GDP.MKTP.KD.ZG" | icode == "SL.UEM.TOTL.ZS"
+{txt}(408,936 observations deleted)
+
+{com}. * Alternative to Unemployment: national estimates: SL.UEM.TOTL.NE.ZS
+. compress
+  {txt}variable {bf}iso3c{sf} was {bf}{res}str12{sf}{txt} now {bf}{res}str3{sf}
+  {txt}variable {bf}iname{sf} was {bf}{res}str131{sf}{txt} now {bf}{res}str67{sf}
+  {txt}variable {bf}icode{sf} was {bf}{res}str25{sf}{txt} now {bf}{res}str17{sf}
+{txt}  (85,536 bytes saved)
+
+{com}. 
+. ***
+. ******
+. 
+. replace iname = "GDP" if iname == "GDP (constant 2010 US$)"
+{txt}(264 real changes made)
+
+{com}. replace iname = "GDP_growth" if iname == "GDP growth (annual %)"
+{txt}(264 real changes made)
+
+{com}. replace iname = "GDP_pc" if iname == "GDP per capita (constant 2010 US$)"
+{txt}(264 real changes made)
+
+{com}. replace iname = "unemployment" if iname == "Unemployment, total (% of total labor force) (modeled ILO estimate)"
+{txt}(264 real changes made)
+
+{com}. compress
+  {txt}variable {bf}iname{sf} was {bf}{res}str67{sf}{txt} now {bf}{res}str12{sf}
+{txt}  (58,080 bytes saved)
+
+{com}. 
+. reshape long year, i(countryname iname) j(years)
+{txt}(note: j = 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}    1056   {txt}->{res}   60192
+{txt}Number of variables            {res}      61   {txt}->{res}       6
+{txt}j variable (57 values)                    ->   {res}years
+{txt}xij variables:
+         {res}year1960 year1961 ... year2016   {txt}->   {res}year
+{txt}{hline 77}
+
+{com}. 
+. rename year ivalue
+{res}{txt}
+{com}. rename years year
+{res}{txt}
+{com}. 
+. reshape wide icode ivalue, i(countryname year) j(iname) string // finally...
+{txt}(note: j = GDP GDP_growth GDP_pc unemployment)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}   60192   {txt}->{res}   15048
+{txt}Number of variables            {res}       6   {txt}->{res}      11
+{txt}j variable (4 values)             {res}iname   {txt}->   (dropped)
+xij variables:
+                                  {res}icode   {txt}->   {res}icodeGDP icodeGDP_growth ... icodeunemployment
+                                 ivalue   {txt}->   {res}ivalueGDP ivalueGDP_growth ... ivalueunemployment
+{txt}{hline 77}
+
+{com}. compress
+  {txt}variable {bf}icodeGDP{sf} was {bf}{res}str17{sf}{txt} now {bf}{res}str14{sf}
+  {txt}variable {bf}icodeGDP_pc{sf} was {bf}{res}str17{sf}{txt} now {bf}{res}str14{sf}
+  {txt}variable {bf}icodeunemployment{sf} was {bf}{res}str17{sf}{txt} now {bf}{res}str14{sf}
+{txt}  (135,432 bytes saved)
+
+{com}. 
+. * trim years
+. keep if year >= 2002 & year <= 2012
+{txt}(12,144 observations deleted)
+
+{com}. 
+. * drop indicator codes
+. drop icode*
+{txt}
+{com}. rename ivalue* *
+{res}{txt}
+{com}. 
+. * standardize countries before matching
+. kountry iso3c, from(iso3c) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. tab countryname if MARKER == 0
+
+                            {txt}countryname {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+                             Arab World {c |}{res}         11        1.85        1.85
+{txt}                 Caribbean small states {c |}{res}         11        1.85        3.70
+{txt}         Central Europe and the Baltics {c |}{res}         11        1.85        5.56
+{txt}                        Channel Islands {c |}{res}         11        1.85        7.41
+{txt}                                Curacao {c |}{res}         11        1.85        9.26
+{txt}             Early-demographic dividend {c |}{res}         11        1.85       11.11
+{txt}                    East Asia & Pacific {c |}{res}         11        1.85       12.96
+{txt}East Asia & Pacific (IDA & IBRD count.. {c |}{res}         11        1.85       14.81
+{txt}East Asia & Pacific (excluding high i.. {c |}{res}         11        1.85       16.67
+{txt}                              Euro area {c |}{res}         11        1.85       18.52
+{txt}                  Europe & Central Asia {c |}{res}         11        1.85       20.37
+{txt}Europe & Central Asia (IDA & IBRD cou.. {c |}{res}         11        1.85       22.22
+{txt}Europe & Central Asia (excluding high.. {c |}{res}         11        1.85       24.07
+{txt}                         European Union {c |}{res}         11        1.85       25.93
+{txt}Fragile and conflict affected situati.. {c |}{res}         11        1.85       27.78
+{txt} Heavily indebted poor countries (HIPC) {c |}{res}         11        1.85       29.63
+{txt}                            High income {c |}{res}         11        1.85       31.48
+{txt}                              IBRD only {c |}{res}         11        1.85       33.33
+{txt}                       IDA & IBRD total {c |}{res}         11        1.85       35.19
+{txt}                              IDA blend {c |}{res}         11        1.85       37.04
+{txt}                               IDA only {c |}{res}         11        1.85       38.89
+{txt}                              IDA total {c |}{res}         11        1.85       40.74
+{txt}                            Isle of Man {c |}{res}         11        1.85       42.59
+{txt}                                 Kosovo {c |}{res}         11        1.85       44.44
+{txt}              Late-demographic dividend {c |}{res}         11        1.85       46.30
+{txt}              Latin America & Caribbean {c |}{res}         11        1.85       48.15
+{txt}Latin America & Caribbean (excluding .. {c |}{res}         11        1.85       50.00
+{txt}Latin America & the Caribbean (IDA & .. {c |}{res}         11        1.85       51.85
+{txt}Least developed countries: UN classif.. {c |}{res}         11        1.85       53.70
+{txt}                    Low & middle income {c |}{res}         11        1.85       55.56
+{txt}                             Low income {c |}{res}         11        1.85       57.41
+{txt}                    Lower middle income {c |}{res}         11        1.85       59.26
+{txt}             Middle East & North Africa {c |}{res}         11        1.85       61.11
+{txt}Middle East & North Africa (IDA & IBR.. {c |}{res}         11        1.85       62.96
+{txt}Middle East & North Africa (excluding.. {c |}{res}         11        1.85       64.81
+{txt}                          Middle income {c |}{res}         11        1.85       66.67
+{txt}                          North America {c |}{res}         11        1.85       68.52
+{txt}               Northern Mariana Islands {c |}{res}         11        1.85       70.37
+{txt}                         Not classified {c |}{res}         11        1.85       72.22
+{txt}                           OECD members {c |}{res}         11        1.85       74.07
+{txt}                     Other small states {c |}{res}         11        1.85       75.93
+{txt}            Pacific island small states {c |}{res}         11        1.85       77.78
+{txt}              Post-demographic dividend {c |}{res}         11        1.85       79.63
+{txt}               Pre-demographic dividend {c |}{res}         11        1.85       81.48
+{txt}              Sint Maarten (Dutch part) {c |}{res}         11        1.85       83.33
+{txt}                           Small states {c |}{res}         11        1.85       85.19
+{txt}                             South Asia {c |}{res}         11        1.85       87.04
+{txt}                South Asia (IDA & IBRD) {c |}{res}         11        1.85       88.89
+{txt}               St. Martin (French part) {c |}{res}         11        1.85       90.74
+{txt}                     Sub-Saharan Africa {c |}{res}         11        1.85       92.59
+{txt}Sub-Saharan Africa (IDA & IBRD countr.. {c |}{res}         11        1.85       94.44
+{txt}Sub-Saharan Africa (excluding high in.. {c |}{res}         11        1.85       96.30
+{txt}                    Upper middle income {c |}{res}         11        1.85       98.15
+{txt}                                  World {c |}{res}         11        1.85      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}        594      100.00
+{txt}
+{com}. * quite a few countries in here that aren't part of the standardization
+. * mostly regions introduced by the World Bank, but some corrections will be necessary
+. 
+. * final harmonization and some manual adjustments
+. * manual adjustments done by looking up the harmonized country names list in kountry
+. gen str country_STD = ""
+{txt}(2,904 missing values generated)
+
+{com}. replace country_STD = NAMES_STD if MARKER == 1
+{txt}variable {bf}country_STD{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str32{sf}
+{txt}(2,310 real changes made)
+
+{com}. 
+. replace country_STD = "Channel Islands" if countryname == "Channel Islands"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "Curacao" if countryname == "Curacao"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "Kosovo" if countryname == "Kosovo"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "Isle of Man" if countryname == "Isle of Man"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "Northern Mariana Islands" if countryname == "Northern Mariana Islands"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "St. Martin (French part)" if countryname == "St. Martin (French part)"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "Sint Maarten (Dutch part)" if countryname == "Sint Maarten (Dutch part)"
+{txt}(11 real changes made)
+
+{com}. 
+. drop if country_STD == ""
+{txt}(517 observations deleted)
+
+{com}. label var country_STD "Country names, standardized with kountry"
+{txt}
+{com}. 
+. drop countryname iso3c NAMES_STD MARKER
+{txt}
+{com}. order country_STD year
+{txt}
+{com}. label var year "Years, 2002-2012"
+{txt}
+{com}. 
+. label var GDP "GDP (constant 2010 US$)"
+{txt}
+{com}. label var GDP_growth "GDP growth (annual %)"
+{txt}
+{com}. label var GDP_pc "GDP per capita (constant 2010 US$)"
+{txt}
+{com}. label var unemployment "Unemployment, total (% of total labor force) (modeled ILO estimate)"
+{txt}
+{com}. 
+. * There's an issue with Taiwan, which is missing (for political reasons)
+. 
+. save "$project\data\WDI_clean.dta", replace
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\data\WDI_clean.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. timer on 1 
+{txt}
+{com}. 
+. use bvdid year guo_final using ///
+> "$raw\ORBIS\ownership\GUO_info_2002-2012_temp.dta", clear
+{err}{p 0 4 2}
+file M:\Berlin - Stata\PG\general-raw\ORBIS\ownership\GUO_info_2002-2012_temp.dta
+not found
+{p_end}
+{txt}{search r(601), local:r(601);}
+
+end of do-file
+
+{search r(601), local:r(601);}
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. timer on 1 
+{txt}
+{com}. 
+. use bvdid year guo_final using ///
+> "$raw\ORBIS\ownership\GUO_info_2002-2012.dta", clear
+{txt}
+{com}. 
+. timer off 1
+{txt}
+{com}. timer list
+{res}   1:    132.90 /        1 =     132.8990
+{txt}
+{com}. timer clear // loading takes 1 min
+{txt}
+{com}. 
+. keep if year == 2002
+{txt}(51,530,310 observations deleted)
+
+{com}. keep if guo_final != ""
+{txt}(4,831,116 observations deleted)
+
+{com}. keep bvdid 
+{txt}
+{com}. di _N
+{res}321915
+{txt}
+{com}. 
+. * Preating a full panel to merge the financials into
+. forvalues year = 2002(1)2012 {c -(}
+{txt}  2{com}. 
+.         gen yearwide`year' = `year'
+{txt}  3{com}. 
+. {c )-}
+{txt}
+{com}. 
+. reshape long yearwide, i(bvdid) j(year)
+{txt}(note: j = 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}  321915   {txt}->{res} 3.5e+06
+{txt}Number of variables            {res}      12   {txt}->{res}       3
+{txt}j variable (11 values)                    ->   {res}year
+{txt}xij variables:
+{res}yearwide2002 yearwide2003 ... yearwide2012{txt}->   {res}yearwide
+{txt}{hline 77}
+
+{com}. drop yearwide
+{txt}
+{com}. compress
+  {txt}variable {bf}bvdid{sf} was {bf}{res}str19{sf}{txt} now {bf}{res}str18{sf}
+{txt}  (3,541,065 bytes saved)
+
+{com}. 
+. tempfile firms2002
+{txt}
+{com}. save "`firms2002'", replace
+{txt}(note: file C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\ST_00000001.tmp not found)
+file C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\ST_00000001.tmp saved
+
+{com}. 
+. timer on 1 
+{txt}
+{com}. 
+. use bvdid year TOAS FIAS OPPL STAF EMPL TURN nacerev2corecode4digits using ///
+> "$raw\ORBIS\financials\LRF_U_AB.dta", clear
+{txt}(Written by R.              )
+
+{com}. 
+. timer off 1
+{txt}
+{com}. timer list
+{res}   1:    229.62 /        1 =     229.6210
+{txt}
+{com}. timer clear // loading takes 3,5 min
+{txt}
+{com}. 
+. rename nacerev2corecode4digits NACEcore4
+{res}{txt}
+{com}. 
+. merge 1:1 bvdid year using "`firms2002'", keep(2 3)
+{res}{txt}{p 0 7 2}
+(note: variable
+bvdid was 
+str17, now str18 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}       1,885,942
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}       1,885,942{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       1,655,123{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. sort bvdid year
+{txt}
+{com}. 
+. * some initial diagnostics
+. tab year if TOAS == .
+
+       {txt}year {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       2002 {c |}{res}    196,813       10.30       10.30
+{txt}       2003 {c |}{res}    190,361        9.97       20.27
+{txt}       2004 {c |}{res}    182,439        9.55       29.82
+{txt}       2005 {c |}{res}    171,364        8.97       38.79
+{txt}       2006 {c |}{res}    155,597        8.15       46.94
+{txt}       2007 {c |}{res}    158,270        8.29       55.22
+{txt}       2008 {c |}{res}    161,633        8.46       63.68
+{txt}       2009 {c |}{res}    167,739        8.78       72.47
+{txt}       2010 {c |}{res}    171,709        8.99       81.45
+{txt}       2011 {c |}{res}    174,095        9.11       90.57
+{txt}       2012 {c |}{res}    180,157        9.43      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}  1,910,177      100.00
+{txt}
+{com}. 
+. gen str country = ""
+{txt}(3,541,065 missing values generated)
+
+{com}. replace country = substr(bvdid,1,2)
+{txt}variable {bf}country{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str2{sf}
+{txt}(3,541,065 real changes made)
+
+{com}. label var country "Country, extracted from bvdid"
+{txt}
+{com}. 
+. * clean fullmissings
+. egen max = rowmean(TOAS-STAF)
+{txt}(1892200 missing values generated)
+
+{com}. bysort bvdid: egen any = sum(max)
+{txt}
+{com}. drop if any == 0
+{txt}(1,410,057 observations deleted)
+
+{com}. tab year
+
+       {txt}year {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       2002 {c |}{res}    193,728        9.09        9.09
+{txt}       2003 {c |}{res}    193,728        9.09       18.18
+{txt}       2004 {c |}{res}    193,728        9.09       27.27
+{txt}       2005 {c |}{res}    193,728        9.09       36.36
+{txt}       2006 {c |}{res}    193,728        9.09       45.45
+{txt}       2007 {c |}{res}    193,728        9.09       54.55
+{txt}       2008 {c |}{res}    193,728        9.09       63.64
+{txt}       2009 {c |}{res}    193,728        9.09       72.73
+{txt}       2010 {c |}{res}    193,728        9.09       81.82
+{txt}       2011 {c |}{res}    193,728        9.09       90.91
+{txt}       2012 {c |}{res}    193,728        9.09      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}  2,131,008      100.00
+{txt}
+{com}. * 193728 firms in the sample
+. drop _merge max any
+{txt}
+{com}. 
+. kountry country, from(iso2c) marker 
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. * 100% successful!
+. 
+. rename NAMES_STD country_STD
+{res}{txt}
+{com}. drop MARKER country
+{txt}
+{com}. label var country_STD "Country names, standardized with kountry"
+{txt}
+{com}. 
+. save "$project\data\firms2002.dta", replace
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\data\firms2002.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. use "$raw\IMF\IMF_IFS_PPI.dta", clear
+{txt}
+{com}. 
+. drop if year > 2012
+{txt}(174 observations deleted)
+
+{com}. 
+. replace countryiso = "AM" if countryname == "Armenia, Republic of"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "HK" if countryname == "China, P.R.: Hong Kong"
+{txt}(11 real changes made)
+
+{com}. drop if countryname == "Euro Area"
+{txt}(11 observations deleted)
+
+{com}. replace countryiso = "GP" if countryname == "France (Guadeloupe)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "MQ" if countryname == "France (Martinique)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "RE" if countryname == "France (Reunion)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "KG" if countryname == "Kyrgyz Republic"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "IC" if countryname == "Spain (Canary Islands)"
+{txt}(11 real changes made)
+
+{com}. 
+. preserve
+{txt}
+{com}. keep countryname countryiso year 
+{txt}
+{com}. duplicates drop countryname year, force
+
+{p 0 4}{txt}Duplicates in terms of {res} countryname year{p_end}
+
+{txt}(0 observations are duplicates)
+
+{com}. save "$project\temp\convergence.dta"
+{err}{p 0 4 2}
+file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\temp\convergence.dta
+already exists
+{p_end}
+{txt}{search r(602), local:r(602);}
+
+end of do-file
+
+{search r(602), local:r(602);}
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. use "$raw\IMF\IMF_IFS_PPI.dta", clear
+{txt}
+{com}. 
+. drop if year > 2012
+{txt}(174 observations deleted)
+
+{com}. 
+. replace countryiso = "AM" if countryname == "Armenia, Republic of"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "HK" if countryname == "China, P.R.: Hong Kong"
+{txt}(11 real changes made)
+
+{com}. drop if countryname == "Euro Area"
+{txt}(11 observations deleted)
+
+{com}. replace countryiso = "GP" if countryname == "France (Guadeloupe)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "MQ" if countryname == "France (Martinique)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "RE" if countryname == "France (Reunion)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "KG" if countryname == "Kyrgyz Republic"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "IC" if countryname == "Spain (Canary Islands)"
+{txt}(11 real changes made)
+
+{com}. 
+. preserve
+{txt}
+{com}. keep countryname countryiso year 
+{txt}
+{com}. duplicates drop countryname year, force
+
+{p 0 4}{txt}Duplicates in terms of {res} countryname year{p_end}
+
+{txt}(0 observations are duplicates)
+
+{com}. save "$project\temp\convergence.dta", replace
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\temp\convergence.dta saved
+
+{com}. restore
+{txt}
+{com}. 
+. kountry countryiso, from(iso2c) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. list if MARKER == 0
+{txt}
+     {c TLC}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c TRC}
+     {c |} {res}           countryname   year           C    C_percent   countr~o   NAMES_~D   MARKER {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+793. {c |} {res}Spain (Canary Islands)   2002   78.133565    .00617483         IC         ic        0 {txt}{c |}
+794. {c |} {res}Spain (Canary Islands)   2003   79.242316    .01419046         IC         ic        0 {txt}{c |}
+795. {c |} {res}Spain (Canary Islands)   2004   81.953402     .0342126         IC         ic        0 {txt}{c |}
+796. {c |} {res}Spain (Canary Islands)   2005   85.822988    .04721691         IC         ic        0 {txt}{c |}
+797. {c |} {res}Spain (Canary Islands)   2006   90.451242     .0539279         IC         ic        0 {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+798. {c |} {res}Spain (Canary Islands)   2007   93.705911    .03598258         IC         ic        0 {txt}{c |}
+799. {c |} {res}Spain (Canary Islands)   2008   99.843333    .06549663         IC         ic        0 {txt}{c |}
+800. {c |} {res}Spain (Canary Islands)   2009   96.445414   -.03403251         IC         ic        0 {txt}{c |}
+801. {c |} {res}Spain (Canary Islands)   2010         100    .03685594         IC         ic        0 {txt}{c |}
+802. {c |} {res}Spain (Canary Islands)   2011   106.94067    .06940672         IC         ic        0 {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+803. {c |} {res}Spain (Canary Islands)   2012   110.97918    .03776396         IC         ic        0 {txt}{c |}
+     {c BLC}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c BRC}
+
+{com}. replace NAMES_STD = countryname if MARKER == 0 // add original canary islands name
+{txt}(11 real changes made)
+
+{com}. 
+. drop countryname MARKER
+{txt}
+{com}. 
+. save "$project\data\IMF_IFS_PPI_iso.dta", replace
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\data\IMF_IFS_PPI_iso.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. use "$raw\IMF\IMF_IFS_PPI.dta", clear
+{txt}
+{com}. 
+. drop if year > 2012
+{txt}(174 observations deleted)
+
+{com}. 
+. replace countryiso = "AM" if countryname == "Armenia, Republic of"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "HK" if countryname == "China, P.R.: Hong Kong"
+{txt}(11 real changes made)
+
+{com}. drop if countryname == "Euro Area"
+{txt}(11 observations deleted)
+
+{com}. replace countryiso = "GP" if countryname == "France (Guadeloupe)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "MQ" if countryname == "France (Martinique)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "RE" if countryname == "France (Reunion)"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "KG" if countryname == "Kyrgyz Republic"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "IC" if countryname == "Spain (Canary Islands)"
+{txt}(11 real changes made)
+
+{com}. 
+. preserve
+{txt}
+{com}. keep countryname countryiso year 
+{txt}
+{com}. duplicates drop countryname year, force
+
+{p 0 4}{txt}Duplicates in terms of {res} countryname year{p_end}
+
+{txt}(0 observations are duplicates)
+
+{com}. tempfile convergence
+{txt}
+{com}. save "`convergence'", replace
+{txt}(note: file C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\ST_00000002.tmp not found)
+file C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\ST_00000002.tmp saved
+
+{com}. restore
+{txt}
+{com}. 
+. kountry countryiso, from(iso2c) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. list if MARKER == 0
+{txt}
+     {c TLC}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c TRC}
+     {c |} {res}           countryname   year           C    C_percent   countr~o   NAMES_~D   MARKER {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+793. {c |} {res}Spain (Canary Islands)   2002   78.133565    .00617483         IC         ic        0 {txt}{c |}
+794. {c |} {res}Spain (Canary Islands)   2003   79.242316    .01419046         IC         ic        0 {txt}{c |}
+795. {c |} {res}Spain (Canary Islands)   2004   81.953402     .0342126         IC         ic        0 {txt}{c |}
+796. {c |} {res}Spain (Canary Islands)   2005   85.822988    .04721691         IC         ic        0 {txt}{c |}
+797. {c |} {res}Spain (Canary Islands)   2006   90.451242     .0539279         IC         ic        0 {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+798. {c |} {res}Spain (Canary Islands)   2007   93.705911    .03598258         IC         ic        0 {txt}{c |}
+799. {c |} {res}Spain (Canary Islands)   2008   99.843333    .06549663         IC         ic        0 {txt}{c |}
+800. {c |} {res}Spain (Canary Islands)   2009   96.445414   -.03403251         IC         ic        0 {txt}{c |}
+801. {c |} {res}Spain (Canary Islands)   2010         100    .03685594         IC         ic        0 {txt}{c |}
+802. {c |} {res}Spain (Canary Islands)   2011   106.94067    .06940672         IC         ic        0 {txt}{c |}
+     {c LT}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c RT}
+803. {c |} {res}Spain (Canary Islands)   2012   110.97918    .03776396         IC         ic        0 {txt}{c |}
+     {c BLC}{hline 24}{c -}{hline 6}{c -}{hline 11}{c -}{hline 12}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c BRC}
+
+{com}. replace NAMES_STD = countryname if MARKER == 0 // add original canary islands name
+{txt}(11 real changes made)
+
+{com}. 
+. drop countryname MARKER
+{txt}
+{com}. 
+. save "$project\data\IMF_IFS_PPI_iso.dta", replace
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\data\IMF_IFS_PPI_iso.dta saved
+
+{com}. 
+. **************************************
+. 
+. ***
+. *  ____  
+. * |___ \ 
+. *   __) |
+. *  / __/ 
+. * |_____|
+. *       
+. *** Tax data, OECD and tax foundation
+. 
+. **************************************
+. 
+. use "$raw\taxes\corporate_tax_rate_final_clean.dta", clear
+{txt}
+{com}. 
+. merge m:1 countryname year using "`convergence'" 
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,936
+{txt}{col 9}from master{col 30}{res}           1,837{txt}  (_merge==1)
+{col 9}from using{col 30}{res}              99{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             847{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. kountry countryiso, from(iso2c) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. rename MARKER iso_MARKER
+{res}{txt}
+{com}. rename NAMES_STD iso_NAMES_STD
+{res}{txt}
+{com}. 
+. kountry countryname, from(other) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. 
+. gen str country = ""
+{txt}(2,783 missing values generated)
+
+{com}. replace country = NAMES_STD if MARKER == 1
+{txt}variable {bf}country{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str32{sf}
+{txt}(2,486 real changes made)
+
+{com}. replace country = iso_NAMES_STD if iso_MARKER == 1
+{txt}(66 real changes made)
+
+{com}. 
+. drop iso_NAMES_STD-MARKER
+{txt}
+{com}. 
+. tab countryname if country == ""
+
+                   {txt}Country name, string {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+                             Antarctica {c |}{res}         11        4.76        4.76
+{txt}                          Bouvet Island {c |}{res}         11        4.76        9.52
+{txt}         British Indian Ocean Territory {c |}{res}         11        4.76       14.29
+{txt}                             Cabo Verde {c |}{res}         11        4.76       19.05
+{txt}                          Côte d'Ivoire {c |}{res}         11        4.76       23.81
+{txt}            French Southern Territories {c |}{res}         11        4.76       28.57
+{txt}                               Guernsey {c |}{res}         11        4.76       33.33
+{txt}      Heard Island And Mcdonald Islands {c |}{res}         11        4.76       38.10
+{txt}                            Isle Of Man {c |}{res}         11        4.76       42.86
+{txt}                                 Jersey {c |}{res}         11        4.76       47.62
+{txt}Macedonia, The Former Yugoslav Republ.. {c |}{res}         11        4.76       52.38
+{txt}                         Norfolk Island {c |}{res}         11        4.76       57.14
+{txt}               Northern Mariana Islands {c |}{res}         11        4.76       61.90
+{txt}                               Pitcairn {c |}{res}         11        4.76       66.67
+{txt}Saint Helena, Ascension and Tristan d.. {c |}{res}         11        4.76       71.43
+{txt}South Georgia And The South Sandwich .. {c |}{res}         11        4.76       76.19
+{txt}                 Spain (Canary Islands) {c |}{res}         11        4.76       80.95
+{txt}                 Svalbard And Jan Mayen {c |}{res}         11        4.76       85.71
+{txt}                                Tokelau {c |}{res}         11        4.76       90.48
+{txt}   United States Minor Outlying Islands {c |}{res}         11        4.76       95.24
+{txt}                          Åland Islands {c |}{res}         11        4.76      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}        231      100.00
+{txt}
+{com}. 
+. * I'm adding the ISO 2-digit codes manually before transforming
+. * to make sure that the conversion to a harmonized name works 
+. * https://en.wikipedia.org/wiki/ISO_3166-1
+. 
+. replace countryiso = "AQ" if countryname == "Antarctica"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "BV" if countryname == "Bouvet Island"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "IO" if countryname == "British Indian Ocean Territory"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "CV" if countryname == "Cabo Verde"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "CI" if countryname == "Côte d'Ivoire"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "TF" if countryname == "French Southern Territories"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "GG" if countryname == "Guernsey"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "HM" if countryname == "Heard Island And Mcdonald Islands"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "IM" if countryname == "Isle Of Man"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "JE" if countryname == "Jersey"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "MK" if countryname == "Macedonia, The Former Yugoslav Republic Of"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "NF" if countryname == "Norfolk Island"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "MP" if countryname == "Northern Mariana Islands"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "PN" if countryname == "Pitcairn"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "SH" if countryname == "Saint Helena, Ascension and Tristan da Cunha"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "GS" if countryname == "South Georgia And The South Sandwich Islands"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "IC" if countryname == "Spain (Canary Islands)" // not in the list, already replaced
+{txt}(0 real changes made)
+
+{com}. replace countryiso = "SJ" if countryname == "Svalbard And Jan Mayen"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "TK" if countryname == "Tokelau"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "UM" if countryname == "United States Minor Outlying Islands"
+{txt}(11 real changes made)
+
+{com}. replace countryiso = "AX" if countryname == "Åland Islands"
+{txt}(11 real changes made)
+
+{com}. 
+. kountry countryiso, from(iso2c) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. 
+. replace country = NAMES_STD if country == "" & MARKER == 1
+{txt}(44 real changes made)
+
+{com}. 
+. drop NAMES_STD MARKER
+{txt}
+{com}. 
+. tab countryname if country == ""
+
+                   {txt}Country name, string {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+                             Antarctica {c |}{res}         11        5.88        5.88
+{txt}                          Bouvet Island {c |}{res}         11        5.88       11.76
+{txt}         British Indian Ocean Territory {c |}{res}         11        5.88       17.65
+{txt}            French Southern Territories {c |}{res}         11        5.88       23.53
+{txt}                               Guernsey {c |}{res}         11        5.88       29.41
+{txt}      Heard Island And Mcdonald Islands {c |}{res}         11        5.88       35.29
+{txt}                            Isle Of Man {c |}{res}         11        5.88       41.18
+{txt}                                 Jersey {c |}{res}         11        5.88       47.06
+{txt}                         Norfolk Island {c |}{res}         11        5.88       52.94
+{txt}               Northern Mariana Islands {c |}{res}         11        5.88       58.82
+{txt}                               Pitcairn {c |}{res}         11        5.88       64.71
+{txt}South Georgia And The South Sandwich .. {c |}{res}         11        5.88       70.59
+{txt}                 Spain (Canary Islands) {c |}{res}         11        5.88       76.47
+{txt}                 Svalbard And Jan Mayen {c |}{res}         11        5.88       82.35
+{txt}                                Tokelau {c |}{res}         11        5.88       88.24
+{txt}   United States Minor Outlying Islands {c |}{res}         11        5.88       94.12
+{txt}                          Åland Islands {c |}{res}         11        5.88      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}        187      100.00
+{txt}
+{com}. 
+. ** overwriting the remaining unharmonizable names with the original
+. 
+. replace country = countryname if country == "" 
+{txt}variable {bf}country{sf} was {bf}{res}str32{sf}{txt} now {bf}{res}str44{sf}
+{txt}(187 real changes made)
+
+{com}. count if country == "" // all good now
+  {res}0
+{txt}
+{com}. count if countryiso == "" // since we didn't have iso2c codes in the original there are many left
+  {res}1,617
+{txt}
+{com}. 
+. drop countryiso
+{txt}
+{com}. 
+. rename country country_STD
+{res}{txt}
+{com}. label var country_STD "Country names, standardized with kountry"
+{txt}
+{com}. drop _merge countryname 
+{txt}
+{com}. order country_STD year
+{txt}
+{com}. sort country_STD year
+{txt}
+{com}. 
+. * checking for unique identification
+. egen unique_id = group(country_STD year)
+{txt}
+{com}. duplicates tag unique_id, gen(dup)
+
+{p 0 4}{txt}Duplicates in terms of {res} unique_id{p_end}
+{txt}
+{com}. tab dup
+
+        {txt}dup {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}      2,607       93.68       93.68
+{txt}          1 {c |}{res}        176        6.32      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,783      100.00
+{txt}
+{com}. tab country_STD if dup == 1
+
+       {txt}Country names, standardized with {c |}
+                                kountry {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+                                Armenia {c |}{res}         22       12.50       12.50
+{txt}                              Hong Kong {c |}{res}         22       12.50       25.00
+{txt}                                   Iran {c |}{res}         22       12.50       37.50
+{txt}                        Kyrgyz Republic {c |}{res}         22       12.50       50.00
+{txt}                              Macedonia {c |}{res}         22       12.50       62.50
+{txt}                            South Korea {c |}{res}         22       12.50       75.00
+{txt}                    Trinidad and Tobago {c |}{res}         22       12.50       87.50
+{txt}                              Venezuela {c |}{res}         22       12.50      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}        176      100.00
+{txt}
+{com}. 
+. * resolving errors
+. egen filled = rowtotal(OECD_MY_cit-TF_tax_com)
+{txt}
+{com}. bysort country_STD year: egen something = max(filled)
+{txt}
+{com}. replace something = 1 if something != 0
+{txt}(1,150 real changes made)
+
+{com}. drop if something == 1 & filled == 0
+{txt}(52 observations deleted)
+
+{com}. duplicates drop unique_id, force
+
+{p 0 4}{txt}Duplicates in terms of {res} unique_id{p_end}
+
+{txt}(36 observations deleted)
+
+{com}. drop unique_id-something
+{txt}
+{com}. 
+. egen unique_id = group(country_STD year)
+{txt}
+{com}. duplicates tag unique_id, gen(dup)
+
+{p 0 4}{txt}Duplicates in terms of {res} unique_id{p_end}
+{txt}
+{com}. tab dup
+
+        {txt}dup {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}      2,695      100.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,695      100.00
+{txt}
+{com}. tab country_STD if dup == 1
+{txt}no observations
+
+{com}. * clean.
+. 
+. tab year 
+
+      {txt}Year, {c |}
+  2002-2012 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       2002 {c |}{res}        245        9.09        9.09
+{txt}       2003 {c |}{res}        245        9.09       18.18
+{txt}       2004 {c |}{res}        245        9.09       27.27
+{txt}       2005 {c |}{res}        245        9.09       36.36
+{txt}       2006 {c |}{res}        245        9.09       45.45
+{txt}       2007 {c |}{res}        245        9.09       54.55
+{txt}       2008 {c |}{res}        245        9.09       63.64
+{txt}       2009 {c |}{res}        245        9.09       72.73
+{txt}       2010 {c |}{res}        245        9.09       81.82
+{txt}       2011 {c |}{res}        245        9.09       90.91
+{txt}       2012 {c |}{res}        245        9.09      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,695      100.00
+{txt}
+{com}. * 245 countries.
+. 
+. drop unique_id-dup
+{txt}
+{com}. 
+. save "$project\data\OECD_taxes_clean.dta", replace
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\data\OECD_taxes_clean.dta saved
+
+{com}. 
+. * Testing the differences in the variables
+. 
+. gen diff = 1 if TF_tax_com != OECD_MY_cit & OECD_MY_cit != .
+{txt}(2,528 missing values generated)
+
+{com}. tab year diff
+
+     {txt}Year, {c |}    diff
+ 2002-2012 {c |}         1 {c |}     Total
+{hline 11}{c +}{hline 11}{c +}{hline 10}
+      2002 {c |}{res}        15 {txt}{c |}{res}        15 
+{txt}      2003 {c |}{res}        14 {txt}{c |}{res}        14 
+{txt}      2004 {c |}{res}        19 {txt}{c |}{res}        19 
+{txt}      2005 {c |}{res}        15 {txt}{c |}{res}        15 
+{txt}      2006 {c |}{res}        18 {txt}{c |}{res}        18 
+{txt}      2007 {c |}{res}        16 {txt}{c |}{res}        16 
+{txt}      2008 {c |}{res}        16 {txt}{c |}{res}        16 
+{txt}      2009 {c |}{res}        15 {txt}{c |}{res}        15 
+{txt}      2010 {c |}{res}        13 {txt}{c |}{res}        13 
+{txt}      2011 {c |}{res}        12 {txt}{c |}{res}        12 
+{txt}      2012 {c |}{res}        14 {txt}{c |}{res}        14 
+{txt}{hline 11}{c +}{hline 11}{c +}{hline 10}
+     Total {c |}{res}       167 {txt}{c |}{res}       167 
+
+{txt}
+{com}. list if year == 2012 & diff == 1
+{txt}
+      {c TLC}{hline 15}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 6}{c TRC}
+      {c |} {res}  country_STD   year   OECD_M~t   OECD_M~m   TF_tax~m   diff {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 6}{c RT}
+ 231. {c |} {res}      Belgium   2012         33      33.99      33.99      1 {txt}{c |}
+ 429. {c |} {res}       Canada   2012         15       26.1         26      1 {txt}{c |}
+ 484. {c |} {res}        Chile   2012         20         20       18.5      1 {txt}{c |}
+ 814. {c |} {res}       France   2012      34.43      34.43       34.4      1 {txt}{c |}
+ 891. {c |} {res}      Germany   2012     15.825     30.175      29.48      1 {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 6}{c RT}
+1177. {c |} {res}        Italy   2012       27.5       27.5       31.4      1 {txt}{c |}
+1199. {c |} {res}        Japan   2012         30      39.54      38.01      1 {txt}{c |}
+1375. {c |} {res}   Luxembourg   2012      22.05       28.8       28.8      1 {txt}{c |}
+1705. {c |} {res}  New Zealand   2012         28         28         28      1 {txt}{c |}
+1793. {c |} {res}       Norway   2012         28         28         28      1 {txt}{c |}
+      {c LT}{hline 15}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 6}{c RT}
+1925. {c |} {res}     Portugal   2012         30       31.5       31.5      1 {txt}{c |}
+2211. {c |} {res}  South Korea   2012         22       24.2       24.2      1 {txt}{c |}
+2310. {c |} {res}  Switzerland   2012        8.5     21.174       21.2      1 {txt}{c |}
+2530. {c |} {res}United States   2012         35     39.134       39.2      1 {txt}{c |}
+      {c BLC}{hline 15}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 6}{c BRC}
+
+{com}. 
+. * TF_tax_com seems to follow OECD_MY_com closely, but not OECD_MY_cit
+. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. import delimited using "$raw\corruption-perceptions-index\data\cpi.csv", clear
+{res}{text}(19 vars, 228 obs)
+
+{com}. 
+. rename v1 Jurisdiction
+{res}{txt}
+{com}. 
+. forvalues i = 2(1)19 {c -(}
+{txt}  2{com}. 
+.         local newname = v`i'[1]
+{txt}  3{com}.         rename v`i' year`newname'
+{txt}  4{com}. 
+. {c )-}
+{res}{txt}
+{com}. *
+. 
+. * Standardize country name
+. kountry Jurisdiction, from(other) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. tab Jurisdiction if MARKER == 0
+
+                           {txt}Jurisdiction {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+                Bosnia and Herzgegovina {c |}{res}          1        5.00        5.00
+{txt}                        Congo  Republic {c |}{res}          1        5.00       10.00
+{txt}              Congo Democratic Republic {c |}{res}          1        5.00       15.00
+{txt}                         Congo Republic {c |}{res}          1        5.00       20.00
+{txt}                      Congo-Brazzaville {c |}{res}          1        5.00       25.00
+{txt}             Congo. Democratic Republic {c |}{res}          1        5.00       30.00
+{txt}                        Congo. Republic {c |}{res}          1        5.00       35.00
+{txt}                         Cote dÂ´Ivoire {c |}{res}          1        5.00       40.00
+{txt}                         Czech Republik {c |}{res}          1        5.00       45.00
+{txt}                        CÃ´te dÂ´Ivoire {c |}{res}          1        5.00       50.00
+{txt}                         CÃ´te-d'Ivoire {c |}{res}          1        5.00       55.00
+{txt}                          FYR Macedonia {c |}{res}          1        5.00       60.00
+{txt}                           Jurisdiction {c |}{res}          1        5.00       65.00
+{txt}                                 Kosovo {c |}{res}          1        5.00       70.00
+{txt}                                 Kuweit {c |}{res}          1        5.00       75.00
+{txt}Macedonia (Former Yugoslav Republic of) {c |}{res}          1        5.00       80.00
+{txt}                               Moldovaa {c |}{res}          1        5.00       85.00
+{txt}                  Palestinian Authority {c |}{res}          1        5.00       90.00
+{txt}                            Taijikistan {c |}{res}          1        5.00       95.00
+{txt}                   The FYR of Macedonia {c |}{res}          1        5.00      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}         20      100.00
+{txt}
+{com}. gen str country_STD = ""
+{txt}(228 missing values generated)
+
+{com}. replace country_STD = NAMES_STD if MARKER == 1
+{txt}variable {bf}country_STD{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str32{sf}
+{txt}(208 real changes made)
+
+{com}. 
+. * manual corrections
+. drop if Jurisdiction == "Jurisdiction"
+{txt}(1 observation deleted)
+
+{com}. replace country_STD = "Bosnia and Herzegovina" if Jurisdiction == "Bosnia and Herzgegovina"
+{txt}(1 real change made)
+
+{com}. 
+. replace country_STD = "Congo" if Jurisdiction == "Congo  Republic"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Congo" if Jurisdiction == "Congo Republic"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Congo" if Jurisdiction == "Congo. Republic"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Congo" if Jurisdiction == "Congo-Brazzaville"
+{txt}(1 real change made)
+
+{com}. 
+. replace country_STD = "Democratic Republic of Congo" if Jurisdiction == "Congo Democratic Republic"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Democratic Republic of Congo" if Jurisdiction == "Congo. Democratic Republic"
+{txt}(1 real change made)
+
+{com}. 
+. replace country_STD = "Cote d'Ivoire" if Jurisdiction == "Cote dÂ´Ivoire"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Cote d'Ivoire" if Jurisdiction == "CÃ´te dÂ´Ivoire"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Cote d'Ivoire" if Jurisdiction == "CÃ´te-d'Ivoire"
+{txt}(1 real change made)
+
+{com}. 
+. replace country_STD = "Czech Republic" if Jurisdiction == "Czech Republik"
+{txt}(1 real change made)
+
+{com}. 
+. replace country_STD = "Macedonia" if Jurisdiction == "The FYR of Macedonia"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Macedonia" if Jurisdiction == "FYR Macedonia"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Macedonia" if Jurisdiction == "Macedonia (Former Yugoslav Republic of)"
+{txt}(1 real change made)
+
+{com}. 
+. drop if Jurisdiction == "Kosovo" // no match in the standardized names
+{txt}(1 observation deleted)
+
+{com}. 
+. replace country_STD = "Moldova" if Jurisdiction == "Moldovaa"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Palestine" if Jurisdiction == "Palestinian Authority"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Tajikistan" if Jurisdiction == "Taijikistan"
+{txt}(1 real change made)
+
+{com}. replace country_STD = "Kuwait" if Jurisdiction == "Kuweit"
+{txt}(1 real change made)
+
+{com}. 
+. count if country_STD == ""
+  {res}0
+{txt}
+{com}. * all filled
+. 
+. * Cleaning duplicates
+. sort country_STD
+{txt}
+{com}. duplicates tag country_STD, gen(dup)
+
+{p 0 4}{txt}Duplicates in terms of {res} country_STD{p_end}
+{txt}
+{com}. 
+. forvalues year = 1998(1)2015 {c -(}
+{txt}  2{com}. 
+.         destring year`year', replace force
+{txt}  3{com}.         bysort country_STD: egen newyear`year' = max(year`year')
+{txt}  4{com}.         drop year`year'
+{txt}  5{com}. {c )-}
+{txt}year1998 contains nonnumeric characters; year1998 {res}replaced {txt}as {res}double
+{txt}(141 missing values generated)
+{res}{txt}(128 missing values generated)
+year1999 contains nonnumeric characters; year1999 {res}replaced {txt}as {res}double
+{txt}(127 missing values generated)
+{res}{txt}(109 missing values generated)
+year2000 contains nonnumeric characters; year2000 {res}replaced {txt}as {res}double
+{txt}(136 missing values generated)
+{res}{txt}(122 missing values generated)
+year2001 contains nonnumeric characters; year2001 {res}replaced {txt}as {res}double
+{txt}(135 missing values generated)
+{res}{txt}(121 missing values generated)
+year2002 contains nonnumeric characters; year2002 {res}replaced {txt}as {res}double
+{txt}(124 missing values generated)
+{res}{txt}(110 missing values generated)
+year2003 contains nonnumeric characters; year2003 {res}replaced {txt}as {res}double
+{txt}(93 missing values generated)
+{res}{txt}(60 missing values generated)
+year2004 contains nonnumeric characters; year2004 {res}replaced {txt}as {res}double
+{txt}(80 missing values generated)
+{res}{txt}(43 missing values generated)
+year2005 contains nonnumeric characters; year2005 {res}replaced {txt}as {res}double
+{txt}(67 missing values generated)
+{res}{txt}(30 missing values generated)
+year2006 contains nonnumeric characters; year2006 {res}replaced {txt}as {res}double
+{txt}(63 missing values generated)
+{res}{txt}(27 missing values generated)
+year2007 contains nonnumeric characters; year2007 {res}replaced {txt}as {res}double
+{txt}(46 missing values generated)
+{res}{txt}(9 missing values generated)
+year2008 contains nonnumeric characters; year2008 {res}replaced {txt}as {res}double
+{txt}(46 missing values generated)
+{res}{txt}(9 missing values generated)
+year2009 contains nonnumeric characters; year2009 {res}replaced {txt}as {res}double
+{txt}(46 missing values generated)
+{res}{txt}(8 missing values generated)
+year2010 contains nonnumeric characters; year2010 {res}replaced {txt}as {res}double
+{txt}(49 missing values generated)
+{res}{txt}(11 missing values generated)
+year2011 contains nonnumeric characters; year2011 {res}replaced {txt}as {res}double
+{txt}(44 missing values generated)
+{res}{txt}(6 missing values generated)
+year2012 contains nonnumeric characters; year2012 {res}replaced {txt}as {res}byte
+{txt}(51 missing values generated)
+{res}{txt}(13 missing values generated)
+year2013 contains nonnumeric characters; year2013 {res}replaced {txt}as {res}byte
+{txt}(50 missing values generated)
+{res}{txt}(12 missing values generated)
+year2014 contains nonnumeric characters; year2014 {res}replaced {txt}as {res}byte
+{txt}(52 missing values generated)
+{res}{txt}(15 missing values generated)
+year2015 contains nonnumeric characters; year2015 {res}replaced {txt}as {res}byte
+{txt}(59 missing values generated)
+{res}{txt}(22 missing values generated)
+
+{com}. 
+. duplicates drop country_STD, force
+
+{p 0 4}{txt}Duplicates in terms of {res} country_STD{p_end}
+
+{txt}(39 observations deleted)
+
+{com}. 
+. drop Jurisdiction NAMES_STD MARKER dup
+{txt}
+{com}. 
+. reshape long newyear, i(country_STD) j(year)
+{txt}(note: j = 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}     187   {txt}->{res}    3366
+{txt}Number of variables            {res}      19   {txt}->{res}       3
+{txt}j variable (18 values)                    ->   {res}year
+{txt}xij variables:
+{res}newyear1998 newyear1999 ... newyear2015   {txt}->   {res}newyear
+{txt}{hline 77}
+
+{com}. 
+. rename newyear TI_CPI
+{res}{txt}
+{com}. label var TI_CPI "Transparency International's CPI"
+{txt}
+{com}. 
+. *** cut to 2002-2012 
+. keep if year >= 2002 & year <= 2012
+{txt}(1,309 observations deleted)
+
+{com}. 
+. * checked by comparing histograms whether adjusting 2012 is feasible
+. * Turns out the change of methodology did alter the distribution at the very top
+. * a little, now there are more countries at the very high end, but it's not possible
+. * to disentangle the effect of a change in methodology from the performance
+. * of the countries. 
+. 
+. *** adjust 2012 to 0-10 scale
+. hist TI_CPI if year == 2012, name(g_before, replace)
+{txt}(bin={res}13{txt}, start={res}8{txt}, width={res}6.3076923{txt})
+{res}{txt}
+{com}. replace TI_CPI = TI_CPI/10 if year == 2012
+{txt}(175 real changes made)
+
+{com}. hist TI_CPI if year == 2012, name(g_after, replace)
+{txt}(bin={res}13{txt}, start={res}.8{txt}, width={res}.63076923{txt})
+{res}{txt}
+{com}. graph combine g_before g_after
+{res}{txt}
+{com}. * rescaling doesn't affect the distribution
+. 
+. hist TI_CPI, by(year)
+{res}{txt}
+{com}. * after the adjustment the distribution looks credible, but countries could have
+. * changed ranks. This adjustment is probably not perfect, but will stay for now.
+. 
+. save "$project\data\TI_CPI_clean.dta", replace
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\data\TI_CPI_clean.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. import delimited using "$raw\WDI\WDIData.csv", clear
+{res}{text}(62 vars, 409,993 obs)
+
+{com}. 
+. rename v1 countryname
+{res}{txt}
+{com}. rename v2 iso3c
+{res}{txt}
+{com}. rename v3 iname
+{res}{txt}
+{com}. rename v4 icode
+{res}{txt}
+{com}. drop v62
+{txt}
+{com}. 
+. forvalues i = 5(1)61 {c -(}
+{txt}  2{com}. 
+.         local newname = v`i'[1]
+{txt}  3{com}.         di "`newname'"
+{txt}  4{com}.         rename v`i' year`newname'
+{txt}  5{com}. 
+. {c )-}
+1960
+{res}1961
+1962
+1963
+1964
+1965
+1966
+1967
+1968
+1969
+1970
+1971
+1972
+1973
+1974
+1975
+1976
+1977
+1978
+1979
+1980
+1981
+1982
+1983
+1984
+1985
+1986
+1987
+1988
+1989
+1990
+1991
+1992
+1993
+1994
+1995
+1996
+1997
+1998
+1999
+2000
+2001
+2002
+2003
+2004
+2005
+2006
+2007
+2008
+2009
+2010
+2011
+2012
+2013
+2014
+2015
+2016
+{txt}
+{com}. *
+. 
+. drop if _n == 1
+{txt}(1 observation deleted)
+
+{com}. 
+. ******
+. *** SELECT INDICATORS OF INTEREST
+. 
+. keep if icode == "NY.GDP.PCAP.KD" | icode == "NY.GDP.MKTP.KD" | icode == "NY.GDP.MKTP.KD.ZG" | icode == "SL.UEM.TOTL.ZS"
+{txt}(408,936 observations deleted)
+
+{com}. * Alternative to Unemployment: national estimates: SL.UEM.TOTL.NE.ZS
+. compress
+  {txt}variable {bf}iso3c{sf} was {bf}{res}str12{sf}{txt} now {bf}{res}str3{sf}
+  {txt}variable {bf}iname{sf} was {bf}{res}str131{sf}{txt} now {bf}{res}str67{sf}
+  {txt}variable {bf}icode{sf} was {bf}{res}str25{sf}{txt} now {bf}{res}str17{sf}
+{txt}  (85,536 bytes saved)
+
+{com}. 
+. ***
+. ******
+. 
+. replace iname = "GDP" if iname == "GDP (constant 2010 US$)"
+{txt}(264 real changes made)
+
+{com}. replace iname = "GDP_growth" if iname == "GDP growth (annual %)"
+{txt}(264 real changes made)
+
+{com}. replace iname = "GDP_pc" if iname == "GDP per capita (constant 2010 US$)"
+{txt}(264 real changes made)
+
+{com}. replace iname = "unemployment" if iname == "Unemployment, total (% of total labor force) (modeled ILO estimate)"
+{txt}(264 real changes made)
+
+{com}. compress
+  {txt}variable {bf}iname{sf} was {bf}{res}str67{sf}{txt} now {bf}{res}str12{sf}
+{txt}  (58,080 bytes saved)
+
+{com}. 
+. reshape long year, i(countryname iname) j(years)
+{txt}(note: j = 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}    1056   {txt}->{res}   60192
+{txt}Number of variables            {res}      61   {txt}->{res}       6
+{txt}j variable (57 values)                    ->   {res}years
+{txt}xij variables:
+         {res}year1960 year1961 ... year2016   {txt}->   {res}year
+{txt}{hline 77}
+
+{com}. 
+. rename year ivalue
+{res}{txt}
+{com}. rename years year
+{res}{txt}
+{com}. 
+. reshape wide icode ivalue, i(countryname year) j(iname) string // finally...
+{txt}(note: j = GDP GDP_growth GDP_pc unemployment)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}   60192   {txt}->{res}   15048
+{txt}Number of variables            {res}       6   {txt}->{res}      11
+{txt}j variable (4 values)             {res}iname   {txt}->   (dropped)
+xij variables:
+                                  {res}icode   {txt}->   {res}icodeGDP icodeGDP_growth ... icodeunemployment
+                                 ivalue   {txt}->   {res}ivalueGDP ivalueGDP_growth ... ivalueunemployment
+{txt}{hline 77}
+
+{com}. compress
+  {txt}variable {bf}icodeGDP{sf} was {bf}{res}str17{sf}{txt} now {bf}{res}str14{sf}
+  {txt}variable {bf}icodeGDP_pc{sf} was {bf}{res}str17{sf}{txt} now {bf}{res}str14{sf}
+  {txt}variable {bf}icodeunemployment{sf} was {bf}{res}str17{sf}{txt} now {bf}{res}str14{sf}
+{txt}  (135,432 bytes saved)
+
+{com}. 
+. * trim years
+. keep if year >= 2002 & year <= 2012
+{txt}(12,144 observations deleted)
+
+{com}. 
+. * drop indicator codes
+. drop icode*
+{txt}
+{com}. rename ivalue* *
+{res}{txt}
+{com}. 
+. * standardize countries before matching
+. kountry iso3c, from(iso3c) marker
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. tab countryname if MARKER == 0
+
+                            {txt}countryname {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+                             Arab World {c |}{res}         11        1.85        1.85
+{txt}                 Caribbean small states {c |}{res}         11        1.85        3.70
+{txt}         Central Europe and the Baltics {c |}{res}         11        1.85        5.56
+{txt}                        Channel Islands {c |}{res}         11        1.85        7.41
+{txt}                                Curacao {c |}{res}         11        1.85        9.26
+{txt}             Early-demographic dividend {c |}{res}         11        1.85       11.11
+{txt}                    East Asia & Pacific {c |}{res}         11        1.85       12.96
+{txt}East Asia & Pacific (IDA & IBRD count.. {c |}{res}         11        1.85       14.81
+{txt}East Asia & Pacific (excluding high i.. {c |}{res}         11        1.85       16.67
+{txt}                              Euro area {c |}{res}         11        1.85       18.52
+{txt}                  Europe & Central Asia {c |}{res}         11        1.85       20.37
+{txt}Europe & Central Asia (IDA & IBRD cou.. {c |}{res}         11        1.85       22.22
+{txt}Europe & Central Asia (excluding high.. {c |}{res}         11        1.85       24.07
+{txt}                         European Union {c |}{res}         11        1.85       25.93
+{txt}Fragile and conflict affected situati.. {c |}{res}         11        1.85       27.78
+{txt} Heavily indebted poor countries (HIPC) {c |}{res}         11        1.85       29.63
+{txt}                            High income {c |}{res}         11        1.85       31.48
+{txt}                              IBRD only {c |}{res}         11        1.85       33.33
+{txt}                       IDA & IBRD total {c |}{res}         11        1.85       35.19
+{txt}                              IDA blend {c |}{res}         11        1.85       37.04
+{txt}                               IDA only {c |}{res}         11        1.85       38.89
+{txt}                              IDA total {c |}{res}         11        1.85       40.74
+{txt}                            Isle of Man {c |}{res}         11        1.85       42.59
+{txt}                                 Kosovo {c |}{res}         11        1.85       44.44
+{txt}              Late-demographic dividend {c |}{res}         11        1.85       46.30
+{txt}              Latin America & Caribbean {c |}{res}         11        1.85       48.15
+{txt}Latin America & Caribbean (excluding .. {c |}{res}         11        1.85       50.00
+{txt}Latin America & the Caribbean (IDA & .. {c |}{res}         11        1.85       51.85
+{txt}Least developed countries: UN classif.. {c |}{res}         11        1.85       53.70
+{txt}                    Low & middle income {c |}{res}         11        1.85       55.56
+{txt}                             Low income {c |}{res}         11        1.85       57.41
+{txt}                    Lower middle income {c |}{res}         11        1.85       59.26
+{txt}             Middle East & North Africa {c |}{res}         11        1.85       61.11
+{txt}Middle East & North Africa (IDA & IBR.. {c |}{res}         11        1.85       62.96
+{txt}Middle East & North Africa (excluding.. {c |}{res}         11        1.85       64.81
+{txt}                          Middle income {c |}{res}         11        1.85       66.67
+{txt}                          North America {c |}{res}         11        1.85       68.52
+{txt}               Northern Mariana Islands {c |}{res}         11        1.85       70.37
+{txt}                         Not classified {c |}{res}         11        1.85       72.22
+{txt}                           OECD members {c |}{res}         11        1.85       74.07
+{txt}                     Other small states {c |}{res}         11        1.85       75.93
+{txt}            Pacific island small states {c |}{res}         11        1.85       77.78
+{txt}              Post-demographic dividend {c |}{res}         11        1.85       79.63
+{txt}               Pre-demographic dividend {c |}{res}         11        1.85       81.48
+{txt}              Sint Maarten (Dutch part) {c |}{res}         11        1.85       83.33
+{txt}                           Small states {c |}{res}         11        1.85       85.19
+{txt}                             South Asia {c |}{res}         11        1.85       87.04
+{txt}                South Asia (IDA & IBRD) {c |}{res}         11        1.85       88.89
+{txt}               St. Martin (French part) {c |}{res}         11        1.85       90.74
+{txt}                     Sub-Saharan Africa {c |}{res}         11        1.85       92.59
+{txt}Sub-Saharan Africa (IDA & IBRD countr.. {c |}{res}         11        1.85       94.44
+{txt}Sub-Saharan Africa (excluding high in.. {c |}{res}         11        1.85       96.30
+{txt}                    Upper middle income {c |}{res}         11        1.85       98.15
+{txt}                                  World {c |}{res}         11        1.85      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}        594      100.00
+{txt}
+{com}. * quite a few countries in here that aren't part of the standardization
+. * mostly regions introduced by the World Bank, but some corrections will be necessary
+. 
+. * final harmonization and some manual adjustments
+. * manual adjustments done by looking up the harmonized country names list in kountry
+. gen str country_STD = ""
+{txt}(2,904 missing values generated)
+
+{com}. replace country_STD = NAMES_STD if MARKER == 1
+{txt}variable {bf}country_STD{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str32{sf}
+{txt}(2,310 real changes made)
+
+{com}. 
+. replace country_STD = "Channel Islands" if countryname == "Channel Islands"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "Curacao" if countryname == "Curacao"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "Kosovo" if countryname == "Kosovo"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "Isle of Man" if countryname == "Isle of Man"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "Northern Mariana Islands" if countryname == "Northern Mariana Islands"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "St. Martin (French part)" if countryname == "St. Martin (French part)"
+{txt}(11 real changes made)
+
+{com}. replace country_STD = "Sint Maarten (Dutch part)" if countryname == "Sint Maarten (Dutch part)"
+{txt}(11 real changes made)
+
+{com}. 
+. drop if country_STD == ""
+{txt}(517 observations deleted)
+
+{com}. label var country_STD "Country names, standardized with kountry"
+{txt}
+{com}. 
+. drop countryname iso3c NAMES_STD MARKER
+{txt}
+{com}. order country_STD year
+{txt}
+{com}. label var year "Years, 2002-2012"
+{txt}
+{com}. 
+. label var GDP "GDP (constant 2010 US$)"
+{txt}
+{com}. label var GDP_growth "GDP growth (annual %)"
+{txt}
+{com}. label var GDP_pc "GDP per capita (constant 2010 US$)"
+{txt}
+{com}. label var unemployment "Unemployment, total (% of total labor force) (modeled ILO estimate)"
+{txt}
+{com}. 
+. * There's an issue with Taiwan, which is missing (for political reasons)
+. 
+. save "$project\data\WDI_clean.dta", replace
+{txt}file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\data\WDI_clean.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. timer on 1 
+{txt}
+{com}. 
+. use bvdid year guo_final using ///
+> "$raw\ORBIS\ownership\GUO_info_2002-2012.dta", clear
+{txt}
+{com}. 
+. timer off 1
+{txt}
+{com}. timer list
+{res}   1:    110.73 /        1 =     110.7300
+{txt}
+{com}. timer clear // loading takes 1 min
+{txt}
+{com}. 
+. keep if year == 2002
+{txt}(51,530,310 observations deleted)
+
+{com}. keep if guo_final != ""
+{txt}(4,831,116 observations deleted)
+
+{com}. keep bvdid 
+{txt}
+{com}. di _N
+{res}321915
+{txt}
+{com}. 
+. * Preating a full panel to merge the financials into
+. forvalues year = 2002(1)2012 {c -(}
+{txt}  2{com}. 
+.         gen yearwide`year' = `year'
+{txt}  3{com}. 
+. {c )-}
+{txt}
+{com}. 
+. reshape long yearwide, i(bvdid) j(year)
+{txt}(note: j = 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}  321915   {txt}->{res} 3.5e+06
+{txt}Number of variables            {res}      12   {txt}->{res}       3
+{txt}j variable (11 values)                    ->   {res}year
+{txt}xij variables:
+{res}yearwide2002 yearwide2003 ... yearwide2012{txt}->   {res}yearwide
+{txt}{hline 77}
+
+{com}. drop yearwide
+{txt}
+{com}. compress
+  {txt}variable {bf}bvdid{sf} was {bf}{res}str19{sf}{txt} now {bf}{res}str18{sf}
+{txt}  (3,541,065 bytes saved)
+
+{com}. 
+. tempfile firmids2002
+{txt}
+{com}. save "`firmids2002'", replace
+{txt}(note: file C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\ST_00000001.tmp not found)
+file C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\ST_00000001.tmp saved
+
+{com}. 
+. timer on 1 
+{txt}
+{com}. 
+. use bvdid year TOAS FIAS OPPL STAF EMPL TURN nacerev2corecode4digits using ///
+> "$raw\ORBIS\financials\LRF_U_AB.dta", clear
+{txt}(Written by R.              )
+
+{com}. 
+. timer off 1
+{txt}
+{com}. timer list
+{res}   1:    244.66 /        1 =     244.6590
+{txt}
+{com}. timer clear // loading takes 3,5 min
+{txt}
+{com}. 
+. rename nacerev2corecode4digits NACEcore4
+{res}{txt}
+{com}. 
+. merge 1:1 bvdid year using "`firmids2002'", keep(2 3)
+{res}{txt}{p 0 7 2}
+(note: variable
+bvdid was 
+str17, now str18 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}       1,885,942
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}       1,885,942{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       1,655,123{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. sort bvdid year
+{txt}
+{com}. 
+. * some initial diagnostics
+. tab year if TOAS == .
+
+       {txt}year {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       2002 {c |}{res}    196,813       10.30       10.30
+{txt}       2003 {c |}{res}    190,361        9.97       20.27
+{txt}       2004 {c |}{res}    182,439        9.55       29.82
+{txt}       2005 {c |}{res}    171,364        8.97       38.79
+{txt}       2006 {c |}{res}    155,597        8.15       46.94
+{txt}       2007 {c |}{res}    158,270        8.29       55.22
+{txt}       2008 {c |}{res}    161,633        8.46       63.68
+{txt}       2009 {c |}{res}    167,739        8.78       72.47
+{txt}       2010 {c |}{res}    171,709        8.99       81.45
+{txt}       2011 {c |}{res}    174,095        9.11       90.57
+{txt}       2012 {c |}{res}    180,157        9.43      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}  1,910,177      100.00
+{txt}
+{com}. 
+. gen str country = ""
+{txt}(3,541,065 missing values generated)
+
+{com}. replace country = substr(bvdid,1,2)
+{txt}variable {bf}country{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str2{sf}
+{txt}(3,541,065 real changes made)
+
+{com}. label var country "Country, extracted from bvdid"
+{txt}
+{com}. 
+. * clean fullmissings
+. egen max = rowmean(TOAS-STAF)
+{txt}(1892200 missing values generated)
+
+{com}. bysort bvdid: egen any = sum(max)
+{txt}
+{com}. drop if any == 0
+{txt}(1,410,057 observations deleted)
+
+{com}. tab year
+
+       {txt}year {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       2002 {c |}{res}    193,728        9.09        9.09
+{txt}       2003 {c |}{res}    193,728        9.09       18.18
+{txt}       2004 {c |}{res}    193,728        9.09       27.27
+{txt}       2005 {c |}{res}    193,728        9.09       36.36
+{txt}       2006 {c |}{res}    193,728        9.09       45.45
+{txt}       2007 {c |}{res}    193,728        9.09       54.55
+{txt}       2008 {c |}{res}    193,728        9.09       63.64
+{txt}       2009 {c |}{res}    193,728        9.09       72.73
+{txt}       2010 {c |}{res}    193,728        9.09       81.82
+{txt}       2011 {c |}{res}    193,728        9.09       90.91
+{txt}       2012 {c |}{res}    193,728        9.09      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}  2,131,008      100.00
+{txt}
+{com}. * 193728 firms in the sample
+. drop _merge max any
+{txt}
+{com}. 
+. kountry country, from(iso2c) marker 
+
+{txt}{hline 54}
+The command has finished.
+The new variables are named {com}NAMES_STD {txt}and {com}MARKER{txt}.
+{hline 54}
+
+{com}. * 100% successful!
+. 
+. rename NAMES_STD country_STD
+{res}{txt}
+{com}. drop MARKER country
+{txt}
+{com}. label var country_STD "Country names, standardized with kountry"
+{txt}
+{com}. 
+. save "$project\temp\firms2002.dta", replace
+{txt}(note: file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\temp\firms2002.dta not found)
+file N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-profitshifting\temp\firms2002.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. keep if _merge == 3 // keeping only the successful merges
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. keep if _merge == 3 // keeping only the successful merges
+{txt}(1,276 observations deleted)
+
+{com}. 
+. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+. * Add taxes
+. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. keep if _merge == 3 // keeping only the successful merges, we don't need the other tax info
+{txt}(1,881 observations deleted)
+
+{com}. drop _merge 
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. keep if _merge == 3 // keeping only the successful merges
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. keep if _merge == 3 // keeping only the successful merges
+{txt}(1,276 observations deleted)
+
+{com}. 
+. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+. * Add taxes
+. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. keep if _merge == 3 // keeping only the successful merges, we don't need the other tax info
+{txt}(1,881 observations deleted)
+
+{com}. drop _merge 
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. order bvdid year EMPL
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var TI_CPI "TI: CPI"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var GDP "WDI: GDP (constant 2010 US$)"
+{txt}
+{com}. label var GDP_growth "WDI: GDP growth (annual %)"
+{txt}
+{com}. label var GDP_pc "WDI: GDP per capita (constant 2010 US$)"
+{txt}
+{com}. label var unemployment "WDI: Unemployment, total (% of total labor force) (modeled ILO estimate)"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var bvdid "ORBIS: bvdid"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. foreach var of varlist EMPL-STAF {c -(}
+{txt}  2{com}.         
+.         local lab: variable label `var'
+{txt}  3{com}.         local newlab = "ORBIS: " + "`lab'"
+{txt}  4{com}.         label var `var' "`newlab'"
+{txt}  5{com}. 
+. {c )-}
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. label var NACEcore4 "ORBIS: NACE Rev. 2 core code, 4 digits"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var OECD_MY_cit "OECD: corporate income tax rate"
+{txt}
+{com}. label var OECD_MY_com "OECD: combined corporate income tax rate"
+{txt}
+{com}. label var TF_tax_com "Tax foundation: combined corporate income tax rate"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. egen unique_id = group(bvdid)
+{txt}
+{com}. xtset unique_id year, yearly
+{res}{txt}{col 8}panel variable:  {res}unique_id (strongly balanced)
+{txt}{col 9}time variable:  {res}{col 25}year, 2002 to 2012
+{txt}{col 17}delta:  {res}1 year
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var country_STD "GEN: country names, standardized with kountry"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var unique_id "GEN: unique combination of bvdid"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var unique_id "GEN: unique bvdid as number"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         replace `var' = `var'/1000
+{txt}  3{com}.         local lab: variable label `var'
+{txt}  4{com}.         local newlab = "`lab'" + ", in thousand"
+{txt}  5{com}.         label var `var' "`newlab'"
+{txt}  6{com}. 
+. {c )-}
+{txt}(1,629,608 real changes made)
+(1,441,098 real changes made)
+(644,955 real changes made)
+(1,137,041 real changes made)
+(831,532 real changes made)
+
+{com}. *
+. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. *** Taking logs.
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         replace `var' = ln(`var')
+{txt}  3{com}.         local lab: variable label `var'
+{txt}  4{com}.         local newlab = "`lab'" + ", in log"
+{txt}  5{com}.         label var `var' "`newlab'"
+{txt}  6{com}. {c )-}
+{txt}(1,629,841 real changes made, 358 to missing)
+(1,626,660 real changes made, 185,899 to missing)
+(688,988 real changes made, 44,337 to missing)
+(1,140,952 real changes made, 379,543 to missing)
+(831,544 real changes made, 998 to missing)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. keep if _merge == 3 // keeping only the successful merges
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. keep if _merge == 3 // keeping only the successful merges
+{txt}(1,276 observations deleted)
+
+{com}. 
+. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+. * Add taxes
+. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. keep if _merge == 3 // keeping only the successful merges, we don't need the other tax info
+{txt}(1,881 observations deleted)
+
+{com}. drop _merge 
+{txt}
+{com}. 
+. *** Clean some labels
+. label var bvdid "ORBIS: bvdid"
+{txt}
+{com}. label var year "Year, 2002-2012"
+{txt}
+{com}. 
+. foreach var of varlist EMPL-STAF {c -(}
+{txt}  2{com}.         
+.         local lab: variable label `var'
+{txt}  3{com}.         local newlab = "ORBIS: " + "`lab'"
+{txt}  4{com}.         label var `var' "`newlab'"
+{txt}  5{com}. 
+. {c )-}
+{txt}
+{com}. *
+. 
+. label var NACEcore4 "ORBIS: NACE Rev. 2 core code, 4 digits"
+{txt}
+{com}. 
+. label var OECD_MY_cit "OECD: corporate income tax rate"
+{txt}
+{com}. label var OECD_MY_com "OECD: combined corporate income tax rate"
+{txt}
+{com}. label var TF_tax_com "Tax foundation: combined corporate income tax rate"
+{txt}
+{com}. label var country_STD "GEN: country names, standardized with kountry"
+{txt}
+{com}. 
+. **************************************
+. 
+. ***
+. *  ____  
+. * |___ \ 
+. *   __) |
+. *  / __/ 
+. * |_____|
+. *       
+. *** Adding selected variables
+. 
+. **************************************
+. 
+. *** Panel setup
+. 
+. egen unique_id = group(bvdid)
+{txt}
+{com}. label var unique_id "GEN: unique bvdid as number"
+{txt}
+{com}. 
+. xtset unique_id year, yearly
+{res}{txt}{col 8}panel variable:  {res}unique_id (strongly balanced)
+{txt}{col 9}time variable:  {res}{col 25}year, 2002 to 2012
+{txt}{col 17}delta:  {res}1 year
+{txt}
+{com}. 
+. *** Generate new OPPL transformations to account for negative values
+. 
+. * Inverse hyperbolic sine function
+. 
+. gen OPPL_asinh = asinh(OPPL/1000)
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_asinh "Inverse hyperbolic sine of OPPL, in thousand"
+{txt}
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. hist OPPL_asinh
+{txt}(bin={res}60{txt}, start={res}-20.511612{txt}, width={res}.67496763{txt})
+{res}
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. keep if _merge == 3 // keeping only the successful merges
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. keep if _merge == 3 // keeping only the successful merges
+{txt}(1,276 observations deleted)
+
+{com}. 
+. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+. * Add taxes
+. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. keep if _merge == 3 // keeping only the successful merges, we don't need the other tax info
+{txt}(1,881 observations deleted)
+
+{com}. drop _merge 
+{txt}
+{com}. 
+. *** Clean some labels
+. label var bvdid "ORBIS: bvdid"
+{txt}
+{com}. label var year "Year, 2002-2012"
+{txt}
+{com}. 
+. foreach var of varlist EMPL-STAF {c -(}
+{txt}  2{com}.         
+.         local lab: variable label `var'
+{txt}  3{com}.         local newlab = "ORBIS: " + "`lab'"
+{txt}  4{com}.         label var `var' "`newlab'"
+{txt}  5{com}. 
+. {c )-}
+{txt}
+{com}. *
+. 
+. label var NACEcore4 "ORBIS: NACE Rev. 2 core code, 4 digits"
+{txt}
+{com}. label var OECD_MY_cit "OECD: corporate income tax rate"
+{txt}
+{com}. label var OECD_MY_com "OECD: combined corporate income tax rate"
+{txt}
+{com}. label var TF_tax_com "Tax foundation: combined corporate income tax rate"
+{txt}
+{com}. label var country_STD "GEN: country names, standardized with kountry"
+{txt}
+{com}. 
+. **************************************
+. 
+. ***
+. *  ____  
+. * |___ \ 
+. *   __) |
+. *  / __/ 
+. * |_____|
+. *       
+. *** Adding selected variables
+. 
+. **************************************
+. 
+. *** Panel setup
+. 
+. egen unique_id = group(bvdid)
+{txt}
+{com}. label var unique_id "GEN: unique bvdid as number"
+{txt}
+{com}. 
+. *** Scale all financials to thousands
+. 
+. order bvdid year EMPL
+{txt}
+{com}. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         replace `var' = `var'/1000
+{txt}  3{com}.         local lab: variable label `var'
+{txt}  4{com}.         local newlab = "`lab'" + ", in thousand"
+{txt}  5{com}.         label var `var' "`newlab'"
+{txt}  6{com}. 
+. {c )-}
+{txt}(1,629,608 real changes made)
+(1,441,098 real changes made)
+(644,955 real changes made)
+(1,137,041 real changes made)
+(831,532 real changes made)
+
+{com}. *
+. 
+. *** Generate new OPPL transformations to account for negative values
+. 
+. * Inverse hyperbolic sine function
+. 
+. gen OPPL_asinh = asinh(OPPL)
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_asinh "Inverse hyperbolic sine of OPPL, in thousand"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. keep if _merge == 3 // keeping only the successful merges
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. keep if _merge == 3 // keeping only the successful merges
+{txt}(1,276 observations deleted)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+. * Add taxes
+. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. keep if _merge == 3 // we lose Taiwan
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. keep if _merge == 3 // we lose Bermuda and Monaco
+{txt}(1,276 observations deleted)
+
+{com}. 
+. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+{txt}no observations
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Taiwan
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Bermuda and Monaco
+{txt}(1,276 observations deleted)
+
+{com}. 
+. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+. * Add taxes
+. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+{txt}no observations
+
+{com}. keep if _merge == 3 // we don't lose anything
+{txt}(1,881 observations deleted)
+
+{com}. drop _merge 
+{txt}
+{com}. 
+. *** Clean some labels
+. label var bvdid "ORBIS: bvdid"
+{txt}
+{com}. label var year "Year, 2002-2012"
+{txt}
+{com}. 
+. foreach var of varlist EMPL-STAF {c -(}
+{txt}  2{com}.         
+.         local lab: variable label `var'
+{txt}  3{com}.         local newlab = "ORBIS: " + "`lab'"
+{txt}  4{com}.         label var `var' "`newlab'"
+{txt}  5{com}. 
+. {c )-}
+{txt}
+{com}. *
+. 
+. label var NACEcore4 "ORBIS: NACE Rev. 2 core code, 4 digits"
+{txt}
+{com}. label var OECD_MY_cit "OECD: corporate income tax rate"
+{txt}
+{com}. label var OECD_MY_com "OECD: combined corporate income tax rate"
+{txt}
+{com}. label var TF_tax_com "Tax foundation: combined corporate income tax rate"
+{txt}
+{com}. label var country_STD "GEN: country names, standardized with kountry"
+{txt}
+{com}. 
+. **************************************
+. 
+. ***
+. *  ____  
+. * |___ \ 
+. *   __) |
+. *  / __/ 
+. * |_____|
+. *       
+. *** Adding selected variables
+. 
+. **************************************
+. 
+. *** Panel setup
+. 
+. egen unique_id = group(bvdid)
+{txt}
+{com}. label var unique_id "GEN: unique bvdid as number"
+{txt}
+{com}. 
+. *** Scale all financials to thousands
+. 
+. order bvdid year EMPL
+{txt}
+{com}. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         replace `var' = `var'/1000
+{txt}  3{com}.         local lab: variable label `var'
+{txt}  4{com}.         local newlab = "`lab'" + ", in thousand"
+{txt}  5{com}.         label var `var' "`newlab'"
+{txt}  6{com}. 
+. {c )-}
+{txt}(1,629,608 real changes made)
+(1,441,098 real changes made)
+(644,955 real changes made)
+(1,137,041 real changes made)
+(831,532 real changes made)
+
+{com}. *
+. 
+. *** Generate new OPPL transformations to account for negative values
+. 
+. * Inverse hyperbolic sine function
+. 
+. gen OPPL_asinh = asinh(OPPL)
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_asinh "Inverse hyperbolic sine of OPPL, in thousand"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. gen OPPL_positive = OPPL
+{txt}(988,747 missing values generated)
+
+{com}. 
+{txt}end of do-file
+
+{com}. help winsor
+
+. hist OPPL
+{txt}(bin={res}60{txt}, start={res}-4.046e+08{txt}, width={res}10732319{txt})
+{res}
+{com}. drop OPPL_positive
+
+. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. winsor OPPL, gen(OPPL_positive) p(0.001) // winsorizing the top 0.1%
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. hist OPPL_positive
+{txt}(bin={res}60{txt}, start={res}-587806{txt}, width={res}30179.792{txt})
+{res}
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. qui sum OPPL_positive
+{txt}
+{com}. replace OPPL_positive = OPPL_positive-r(min)
+{txt}(1,140,952 real changes made)
+
+{com}. 
+{txt}end of do-file
+
+{com}. hist OPPL_positive
+{txt}(bin={res}60{txt}, start={res}0{txt}, width={res}30179.792{txt})
+{res}
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. replace OPPL_positive = ln(OPPL_positive)
+{txt}(1,140,952 real changes made, 1,141 to missing)
+
+{com}. 
+{txt}end of do-file
+
+{com}. hist OPPL_positive
+{txt}(bin={res}60{txt}, start={res}1.7917595{txt}, width={res}.21029188{txt})
+{res}
+{com}. drop OPPL_positive
+
+. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. winsor OPPL, gen(OPPL_positive) p(0.001) // winsorizing the top 0.1%
+{txt}
+{com}. qui sum OPPL_positive
+{txt}
+{com}. replace OPPL_positive = OPPL_positive-r(min)
+{txt}(1,140,952 real changes made)
+
+{com}. 
+{txt}end of do-file
+
+{com}. browse
+
+. hist OPPL_positive
+{txt}(bin={res}60{txt}, start={res}0{txt}, width={res}30179.792{txt})
+{res}
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. capture drop OPPL_positive
+{txt}
+{com}. winsor OPPL, gen(OPPL_positive) p(0.01) // winsorizing the top 1%
+{txt}
+{com}. qui sum OPPL_positive
+{txt}
+{com}. replace OPPL_positive = OPPL_positive-r(min)
+{txt}(1,140,952 real changes made)
+
+{com}. replace OPPL_positive = ln(OPPL_positive)
+{txt}(1,140,952 real changes made, 11,410 to missing)
+
+{com}. 
+{txt}end of do-file
+
+{com}. hist OPPL_positive
+{txt}(bin={res}60{txt}, start={res}.77103372{txt}, width={res}.18692229{txt})
+{res}
+{com}. twoway scatter OPPL_positive TF_tax_com
+{res}
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. capture drop OPPL_positive
+{txt}
+{com}. winsor OPPL, gen(OPPL_positive) p(0.001) // winsorizing the top 1%
+{txt}
+{com}. qui sum OPPL_positive
+{txt}
+{com}. replace OPPL_positive = OPPL_positive-r(min)
+{txt}(1,140,952 real changes made)
+
+{com}. replace OPPL_positive = ln(OPPL_positive)
+{txt}(1,140,952 real changes made, 1,141 to missing)
+
+{com}. 
+{txt}end of do-file
+
+{com}. twoway scatter OPPL_positive TF_tax_com || lfitci(OPPL_positive TF_tax_com)
+{err}) required
+{txt}{search r(100), local:r(100);}
+
+{com}. twoway scatter OPPL_positive TF_tax_com || lfit(OPPL_positive TF_tax_com)
+{err}) required
+{txt}{search r(100), local:r(100);}
+
+{com}. help lfit
+
+. twoway scatter OPPL_positive TF_tax_com || lfit range(OPPL_positive TF_tax_com)
+{err}range:  operator invalid
+{txt}{search r(198), local:r(198);}
+
+{com}. scatter OPPL_positive TF_tax_com || lfit OPPL_positive TF_tax_com
+{res}
+{com}. scatter OPPL TF_tax_com || lfit OPPL TF_tax_com
+{res}
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         replace `var' = ln(`var')
+{txt}  3{com}.         local lab: variable label `var'
+{txt}  4{com}.         local newlab = "`lab'" + ", in log"
+{txt}  5{com}.         label var `var' "`newlab'"
+{txt}  6{com}. {c )-}
+{txt}(1,629,841 real changes made, 358 to missing)
+(1,626,660 real changes made, 185,899 to missing)
+(688,988 real changes made, 44,337 to missing)
+(1,140,952 real changes made, 379,543 to missing)
+(831,544 real changes made, 998 to missing)
+
+{com}. *
+. 
+{txt}end of do-file
+
+{com}. scatter OPPL TF_tax_com || lfit OPPL TF_tax_com
+{res}
+{com}. scatter OPPL_asinh TF_tax_com || lfit OPPL_asinh TF_tax_com
+{res}
+{com}. di asinh(1)
+{res}.88137359
+
+{com}. di asinh(100)
+{res}5.2983424
+
+{com}. di ln(1)
+{res}0
+
+{com}. di ln(100)
+{res}4.6051702
+
+{com}. di ln(1000)
+{res}6.9077553
+
+{com}. di asinh(1000)
+{res}7.6009027
+
+{com}. di asinh(10000)
+{res}9.9034876
+
+{com}. di ln(10000)
+{res}9.2103404
+
+{com}. run "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+. gen test_asinh = asinh(OPPL) if OPPL > 0
+{txt}(1,368,290 missing values generated)
+
+{com}. gen test_ln = ln(OPPL) if OPPL > 0
+{txt}(1,368,290 missing values generated)
+
+{com}. help kdensity
+
+. kdensity test_ln
+{res}
+{com}. kdensity test_ln, name (g1, replace)
+{res}
+{com}. kdensity test_asinh, name(g2, replace)
+{res}
+{com}. graph combine g1 g2
+{res}
+{com}. gen test3 = test_asinh-test_ln
+{txt}(1,368,290 missing values generated)
+
+{com}. kdensity test3
+{res}
+{com}. hist test3
+{txt}(bin={res}58{txt}, start={res}.69314718{txt}, width={res}.10716566{txt})
+{res}
+{com}. sum test3, detail
+
+                            {txt}test3
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} .6931472       .6931472
+{txt} 5%    {res} .6931472       .6931472
+{txt}10%    {res} .6931472       .6931472       {txt}Obs         {res}    761,409
+{txt}25%    {res} .6931472       .6931472       {txt}Sum of Wgt. {res}    761,409
+
+{txt}50%    {res} .6931476                      {txt}Mean          {res} .6972522
+                        {txt}Largest       Std. Dev.     {res} .0878981
+{txt}75%    {res}  .693153       6.908755
+{txt}90%    {res}  .693226       6.908755       {txt}Variance      {res} .0077261
+{txt}95%    {res} .6936154       6.908755       {txt}Skewness      {res} 40.23395
+{txt}99%    {res} .7181084       6.908755       {txt}Kurtosis      {res} 2017.889
+
+{com}. kdensity test_asinh || kdensity test_ln
+{err}| invalid name
+{txt}{search r(198), local:r(198);}
+
+{com}. help kdensity
+
+. kdensity test_asinh, addplot(kdensity test_ln)
+{err}{hline 2}Break{hline 2}
+{txt}{search r(1), local:r(1);}
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. **************************************
+. 
+. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Taiwan
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Bermuda and Monaco
+{txt}(1,276 observations deleted)
+
+{com}. 
+. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+. * Add taxes
+. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+{txt}no observations
+
+{com}. keep if _merge == 3 // we don't lose anything
+{txt}(1,881 observations deleted)
+
+{com}. drop _merge 
+{txt}
+{com}. 
+. *** Clean some labels
+. label var bvdid "ORBIS: bvdid"
+{txt}
+{com}. label var year "Year, 2002-2012"
+{txt}
+{com}. 
+. foreach var of varlist EMPL-STAF {c -(}
+{txt}  2{com}.         
+.         local lab: variable label `var'
+{txt}  3{com}.         local newlab = "ORBIS: " + "`lab'"
+{txt}  4{com}.         label var `var' "`newlab'"
+{txt}  5{com}. 
+. {c )-}
+{txt}
+{com}. *
+. 
+. label var NACEcore4 "ORBIS: NACE Rev. 2 core code, 4 digits"
+{txt}
+{com}. label var OECD_MY_cit "OECD: corporate income tax rate"
+{txt}
+{com}. label var OECD_MY_com "OECD: combined corporate income tax rate"
+{txt}
+{com}. label var TF_tax_com "Tax foundation: combined corporate income tax rate"
+{txt}
+{com}. label var country_STD "GEN: country names, standardized with kountry"
+{txt}
+{com}. 
+. **************************************
+. 
+. ***
+. *  ____  
+. * |___ \ 
+. *   __) |
+. *  / __/ 
+. * |_____|
+. *       
+. *** Adding selected variables
+. 
+. **************************************
+. 
+. *** Panel setup
+. 
+. egen unique_id = group(bvdid)
+{txt}
+{com}. label var unique_id "GEN: unique bvdid as number"
+{txt}
+{com}. 
+. *** Scale all financials to thousands
+. 
+. order bvdid year EMPL
+{txt}
+{com}. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         replace `var' = `var'/1000
+{txt}  3{com}.         local lab: variable label `var'
+{txt}  4{com}.         local newlab = "`lab'" + ", in thousand"
+{txt}  5{com}.         label var `var' "`newlab'"
+{txt}  6{com}. 
+. {c )-}
+{txt}(1,629,608 real changes made)
+(1,441,098 real changes made)
+(644,955 real changes made)
+(1,137,041 real changes made)
+(831,532 real changes made)
+
+{com}. *
+. 
+. *** Generate new OPPL transformations to account for negative values
+. 
+. * Inverse hyperbolic sine function
+. 
+. gen OPPL_asinh = asinh(OPPL)
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_asinh "Inverse hyperbolic sine of OPPL, in thousand"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. ssc install ihs
+{txt}{err}ssc install: "ihs" not found at SSC, type {stata search ihs}
+(To find all packages at SSC that start with i, type {stata ssc describe i})
+{txt}{search r(601), local:r(601);}
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. gen OPPL_cube = cond(OPPL < 0 , -(-OPPL)^(1/3), OPPL^(1/3))
+{txt}(988,747 missing values generated)
+
+{com}. 
+{txt}end of do-file
+
+{com}. hist OPPL_cube
+{txt}(bin={res}60{txt}, start={res}-739.6337{txt}, width={res}22.67483{txt})
+{res}
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. capture drop OPPL_cube
+{txt}
+{com}. winsor OPPL, gen(OPPL_cube) p(0.001) // winsorizing the top 0.1%
+{txt}
+{com}. replace OPPL_cube = cond(OPPL_cube < 0 , -(-OPPL)^(1/3), OPPL^(1/3))
+{txt}(1,136,980 real changes made)
+
+{com}. 
+{txt}end of do-file
+
+{com}. hist OPPL_cube
+{txt}(bin={res}60{txt}, start={res}-739.6337{txt}, width={res}22.67483{txt})
+{res}
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. capture drop OPPL_cube
+{txt}
+{com}. winsor OPPL, gen(OPPL_cube) p(0.001) // winsorizing the top 0.1%
+{txt}
+{com}. replace OPPL_cube = cond(OPPL_cube < 0 , -(-OPPL_cube)^(1/3), OPPL_cube^(1/3))
+{txt}(1,136,980 real changes made)
+
+{com}. 
+{txt}end of do-file
+
+{com}. hist OPPL_cube
+{txt}(bin={res}60{txt}, start={res}-83.767973{txt}, width={res}3.1784653{txt})
+{res}
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var OPPL_asinh "GEN: Inverse hyperbolic sine of OPPL, in thousand"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var OPPL_cube "GEN: OPPL, Winsorized fraction .001, cube root"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var OPPL_cube "GEN: OPPL, in thousand, winsorized fraction .001, cube root"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var OPPL_cube "GEN: OPPL, in thousand, winsorized fraction .001, then cube root"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. gen OPPL_neglog = sign(OPPL) * log(1 + abs(OPPL))
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_neglog "GEN: OPPL, in thousand, neglog"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. hist OPPL_neglog
+{txt}(bin={res}60{txt}, start={res}-19.818465{txt}, width={res}.65186272{txt})
+{res}
+{com}. hist OPPL_asinh
+{txt}(bin={res}60{txt}, start={res}-20.511612{txt}, width={res}.67496763{txt})
+{res}
+{com}. count if OPPL != .
+  {res}1,140,952
+
+{com}. di 1140952*0.001
+{res}1140.952
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Taiwan
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Bermuda and Monaco
+{txt}(1,276 observations deleted)
+
+{com}. 
+. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+. * Add taxes
+. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+{txt}no observations
+
+{com}. keep if _merge == 3 // we don't lose anything
+{txt}(1,881 observations deleted)
+
+{com}. drop _merge 
+{txt}
+{com}. 
+. *** Clean some labels
+. label var bvdid "ORBIS: bvdid"
+{txt}
+{com}. label var year "Year, 2002-2012"
+{txt}
+{com}. 
+. foreach var of varlist EMPL-STAF {c -(}
+{txt}  2{com}.         
+.         local lab: variable label `var'
+{txt}  3{com}.         local newlab = "ORBIS: " + "`lab'"
+{txt}  4{com}.         label var `var' "`newlab'"
+{txt}  5{com}. 
+. {c )-}
+{txt}
+{com}. *
+. 
+. label var NACEcore4 "ORBIS: NACE Rev. 2 core code, 4 digits"
+{txt}
+{com}. label var OECD_MY_cit "OECD: corporate income tax rate"
+{txt}
+{com}. label var OECD_MY_com "OECD: combined corporate income tax rate"
+{txt}
+{com}. label var TF_tax_com "Tax foundation: combined corporate income tax rate"
+{txt}
+{com}. label var country_STD "GEN: country names, standardized with kountry"
+{txt}
+{com}. 
+. **************************************
+. 
+. ***
+. *  ____  
+. * |___ \ 
+. *   __) |
+. *  / __/ 
+. * |_____|
+. *       
+. *** Adding selected variables
+. 
+. **************************************
+. 
+. *** Panel setup
+. 
+. egen unique_id = group(bvdid)
+{txt}
+{com}. label var unique_id "GEN: unique bvdid as number"
+{txt}
+{com}. 
+. *** Scale all financials to thousands
+. 
+. order bvdid year EMPL
+{txt}
+{com}. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         replace `var' = `var'/1000
+{txt}  3{com}.         local lab: variable label `var'
+{txt}  4{com}.         local newlab = "`lab'" + ", in thousand"
+{txt}  5{com}.         label var `var' "`newlab'"
+{txt}  6{com}. 
+. {c )-}
+{txt}(1,629,608 real changes made)
+(1,441,098 real changes made)
+(644,955 real changes made)
+(1,137,041 real changes made)
+(831,532 real changes made)
+
+{com}. *
+. 
+. *** Winsorize at 0.001
+. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         winsor `var', gen(`var'_win) p(0.001) // winsorizing the top 0.1%
+{txt}  3{com}.         replace `var' = `var'_win
+{txt}  4{com}.         drop `var'_win
+{txt}  5{com}.         local lab: variable label `var'
+{txt}  6{com}.         local newlab = "`lab'" + ", in thousand, win = .001"
+{txt}  7{com}.         label var `var' "`newlab'"
+{txt}  8{com}. 
+. {c )-}
+{txt}(2,152 real changes made)
+(1,963 real changes made)
+(992 real changes made)
+(2,280 real changes made)
+(1,662 real changes made)
+
+{com}. 
+. **************************************
+. 
+. *** Generate new OPPL transformations to account for negative values
+. 
+. *** Inverse hyperbolic sine function
+. 
+. gen OPPL_asinh = asinh(OPPL)
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_asinh "GEN: Inverse hyperbolic sine of OPPL, in thousand"
+{txt}
+{com}. 
+. * From Statalist, a person named Scott:
+. * Link: https://www.stata.com/statalist/archive/2005-03/msg00964.html
+. 
+. *> An inverse hyperbolic sine transformation is:
+. *>  IHS = log(z + sqrt(z^z + 1))
+. *>
+. *> It is an alternative to log transformations when some of
+. *> the variables take on zero or negative values and as
+. *> an alternative to the Box-Cox when variables are zero or
+. *> negative.
+. *>
+. *>
+. *> See, for example:
+. *>
+. *> Layton, David F, 2001. "Alternative Approaches for Modeling
+. *> Concave Willingness to Pay Functions in Conjoint Valuation,"
+. *> American Journalof Agricultural Economics, vol. 83(5), 1314-20.
+. *>
+. *> Burbidge, John B., Lonnie Magee and A. Leslie Robb. 1988 "Alternative
+. *> Transformations to Handle Extreme Values of the Dependent Variable."
+. *>  Journal of the American Statistical Association, vol. 83, 123-127.
+. *>
+. *> Scott
+. 
+. * From Statalist, le monsieur Nick Cox himself:
+. * https://www.statalist.org/forums/forum/general-stata-discussion/general/1372507-inverse-hyperbolic-sine-transformation 
+. 
+. * "For what I imagine to be your problem, consider also cube roots and the neglog transformation."
+. * Code:
+. *
+. * gen curt_y = cond(y < 0 , -(-y)^(1/3), y^(1/3)) 
+. * gen neglog_y = sign(y) * log(1 + abs(y))
+. 
+. *** Cube root 
+. 
+. capture drop OPPL_cube
+{txt}
+{com}. replace OPPL_cube = cond(OPPL_cube < 0 , -(-OPPL_cube)^(1/3), OPPL_cube^(1/3))
+{err}variable {bf}OPPL_cube{sf} not found
+{txt}{search r(111), local:r(111);}
+
+end of do-file
+
+{search r(111), local:r(111);}
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var OPPL_asinh "GEN: Inverse hyperbolic sine of OPPL, in thousand, win = .001"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. capture drop OPPL_cube
+{txt}
+{com}. gen OPPL_cube = cond(OPPL_cube < 0 , -(-OPPL_cube)^(1/3), OPPL_cube^(1/3))
+{err}OPPL_cube not found
+{txt}{search r(111), local:r(111);}
+
+end of do-file
+
+{search r(111), local:r(111);}
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. capture drop OPPL_cube
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. gen OPPL_cube = cond(OPPL_cube < 0 , -(-OPPL_cube)^(1/3), OPPL_cube^(1/3))
+{err}OPPL_cube not found
+{txt}{search r(111), local:r(111);}
+
+end of do-file
+
+{search r(111), local:r(111);}
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. gen OPPL_cube = cond(OPPL_cube < 0 , -(-OPPL_cube)^(1/3), OPPL_cube^(1/3))
+{err}OPPL_cube not found
+{txt}{search r(111), local:r(111);}
+
+end of do-file
+
+{search r(111), local:r(111);}
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. gen OPPL_cube = cond(OPPL_cube < 0 , -(-OPPL_cube)^(1/3), OPPL_cube^(1/3))
+{err}OPPL_cube not found
+{txt}{search r(111), local:r(111);}
+
+end of do-file
+
+{search r(111), local:r(111);}
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. gen OPPL_neglog = sign(OPPL) * log(1 + abs(OPPL))
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_neglog "GEN: OPPL, in thousand, win = .001, neglog"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. gen OPPL_cube = cond(OPPL_cube < 0 , -(-OPPL_cube)^(1/3), OPPL_cube^(1/3))
+{err}OPPL_cube not found
+{txt}{search r(111), local:r(111);}
+
+end of do-file
+
+{search r(111), local:r(111);}
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. capture drop OPPL_cube
+{txt}
+{com}. gen OPPL_cube = cond(OPPL < 0 , -(-OPPL)^(1/3), OPPL^(1/3))
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_cube "GEN: OPPL, in thousand, win = .001, then cube root"
+{txt}
+{com}. * Looking at a histogram of this it seems to do a great job in compressing the data. 
+. * I added 0.1% winsorizing to deal with the few outliers. 
+. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Taiwan
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Bermuda and Monaco
+{txt}(1,276 observations deleted)
+
+{com}. 
+. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+. * Add taxes
+. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+{txt}no observations
+
+{com}. keep if _merge == 3 // we don't lose anything
+{txt}(1,881 observations deleted)
+
+{com}. drop _merge 
+{txt}
+{com}. 
+. *** Clean some labels
+. label var bvdid "ORBIS: bvdid"
+{txt}
+{com}. label var year "Year, 2002-2012"
+{txt}
+{com}. 
+. foreach var of varlist EMPL-STAF {c -(}
+{txt}  2{com}.         
+.         local lab: variable label `var'
+{txt}  3{com}.         local newlab = "ORBIS: " + "`lab'"
+{txt}  4{com}.         label var `var' "`newlab'"
+{txt}  5{com}. 
+. {c )-}
+{txt}
+{com}. *
+. 
+. label var NACEcore4 "ORBIS: NACE Rev. 2 core code, 4 digits"
+{txt}
+{com}. label var OECD_MY_cit "OECD: corporate income tax rate"
+{txt}
+{com}. label var OECD_MY_com "OECD: combined corporate income tax rate"
+{txt}
+{com}. label var TF_tax_com "Tax foundation: combined corporate income tax rate"
+{txt}
+{com}. label var country_STD "GEN: country names, standardized with kountry"
+{txt}
+{com}. 
+. **************************************
+. 
+. ***
+. *  ____  
+. * |___ \ 
+. *   __) |
+. *  / __/ 
+. * |_____|
+. *       
+. *** Adding selected variables
+. 
+. **************************************
+. 
+. *** Panel setup
+. 
+. egen unique_id = group(bvdid)
+{txt}
+{com}. label var unique_id "GEN: unique bvdid as number"
+{txt}
+{com}. 
+. *** Scale all financials to thousands
+. 
+. order bvdid year EMPL
+{txt}
+{com}. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         replace `var' = `var'/1000
+{txt}  3{com}.         local lab: variable label `var'
+{txt}  4{com}.         local newlab = "`lab'" + ", in thousand"
+{txt}  5{com}.         label var `var' "`newlab'"
+{txt}  6{com}. 
+. {c )-}
+{txt}(1,629,608 real changes made)
+(1,441,098 real changes made)
+(644,955 real changes made)
+(1,137,041 real changes made)
+(831,532 real changes made)
+
+{com}. *
+. 
+. *** Winsorize at 0.001
+. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         winsor `var', gen(`var'_win) p(0.001) // winsorizing the top 0.1%
+{txt}  3{com}.         replace `var' = `var'_win
+{txt}  4{com}.         drop `var'_win
+{txt}  5{com}.         local lab: variable label `var'
+{txt}  6{com}.         local newlab = "`lab'" + ", in thousand, win = .001"
+{txt}  7{com}.         label var `var' "`newlab'"
+{txt}  8{com}. 
+. {c )-}
+{txt}(2,152 real changes made)
+{err}{hline 2}Break{hline 2}
+{txt}{search r(1), local:r(1);}
+
+end of do-file
+
+{err}{hline 2}Break{hline 2}
+{txt}{search r(1), local:r(1);}
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Taiwan
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Bermuda and Monaco
+{txt}(1,276 observations deleted)
+
+{com}. 
+. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+. * Add taxes
+. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+{txt}no observations
+
+{com}. keep if _merge == 3 // we don't lose anything
+{txt}(1,881 observations deleted)
+
+{com}. drop _merge 
+{txt}
+{com}. 
+. *** Clean some labels
+. label var bvdid "ORBIS: bvdid"
+{txt}
+{com}. label var year "Year, 2002-2012"
+{txt}
+{com}. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}.         
+.         local lab: variable label `var'
+{txt}  3{com}.         local newlab = "ORBIS: " + "`lab'"
+{txt}  4{com}.         label var `var' "`newlab'"
+{txt}  5{com}. 
+. {c )-}
+{txt}
+{com}. *
+. 
+. label var NACEcore4 "ORBIS: NACE Rev. 2 core code, 4 digits"
+{txt}
+{com}. label var OECD_MY_cit "OECD: corporate income tax rate"
+{txt}
+{com}. label var OECD_MY_com "OECD: combined corporate income tax rate"
+{txt}
+{com}. label var TF_tax_com "Tax foundation: combined corporate income tax rate"
+{txt}
+{com}. label var country_STD "GEN: country names, standardized with kountry"
+{txt}
+{com}. 
+. **************************************
+. 
+. ***
+. *  ____  
+. * |___ \ 
+. *   __) |
+. *  / __/ 
+. * |_____|
+. *       
+. *** Adding selected variables
+. 
+. **************************************
+. 
+. *** Panel setup
+. 
+. egen unique_id = group(bvdid)
+{txt}
+{com}. label var unique_id "GEN: unique bvdid as number"
+{txt}
+{com}. 
+. *** Scale all financials to thousands
+. 
+. order bvdid year EMPL
+{txt}
+{com}. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         replace `var' = `var'/1000
+{txt}  3{com}.         local lab: variable label `var'
+{txt}  4{com}.         local newlab = "`lab'" + ", in thousand"
+{txt}  5{com}.         label var `var' "`newlab'"
+{txt}  6{com}. 
+. {c )-}
+{txt}(1,629,608 real changes made)
+(1,441,098 real changes made)
+(644,955 real changes made)
+(1,137,041 real changes made)
+(831,532 real changes made)
+
+{com}. *
+. 
+. *** Winsorize at 0.001
+. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         winsor `var', gen(`var'_win) p(0.001) // winsorizing the top 0.1%
+{txt}  3{com}.         replace `var' = `var'_win
+{txt}  4{com}.         drop `var'_win
+{txt}  5{com}.         local lab: variable label `var'
+{txt}  6{com}.         local newlab = "`lab'" + ", in thousand, win = .001"
+{txt}  7{com}.         label var `var' "`newlab'"
+{txt}  8{com}. 
+. {c )-}
+{txt}(2,152 real changes made)
+(1,963 real changes made)
+(992 real changes made)
+(2,280 real changes made)
+(1,662 real changes made)
+
+{com}. 
+. **************************************
+. 
+. *** Generate new OPPL transformations to account for negative values
+. 
+. *** Inverse hyperbolic sine function
+. 
+. gen OPPL_asinh = asinh(OPPL)
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_asinh "GEN: Inverse hyperbolic sine of OPPL, in thousand, win = .001"
+{txt}
+{com}. 
+. * From Statalist, a person named Scott:
+. * Link: https://www.stata.com/statalist/archive/2005-03/msg00964.html
+. 
+. *> An inverse hyperbolic sine transformation is:
+. *>  IHS = log(z + sqrt(z^z + 1))
+. *>
+. *> It is an alternative to log transformations when some of
+. *> the variables take on zero or negative values and as
+. *> an alternative to the Box-Cox when variables are zero or
+. *> negative.
+. *>
+. *>
+. *> See, for example:
+. *>
+. *> Layton, David F, 2001. "Alternative Approaches for Modeling
+. *> Concave Willingness to Pay Functions in Conjoint Valuation,"
+. *> American Journalof Agricultural Economics, vol. 83(5), 1314-20.
+. *>
+. *> Burbidge, John B., Lonnie Magee and A. Leslie Robb. 1988 "Alternative
+. *> Transformations to Handle Extreme Values of the Dependent Variable."
+. *>  Journal of the American Statistical Association, vol. 83, 123-127.
+. *>
+. *> Scott
+. 
+. * From Statalist, le monsieur Nick Cox himself:
+. * https://www.statalist.org/forums/forum/general-stata-discussion/general/1372507-inverse-hyperbolic-sine-transformation 
+. 
+. * "For what I imagine to be your problem, consider also cube roots and the neglog transformation."
+. * Code:
+. *
+. * gen curt_y = cond(y < 0 , -(-y)^(1/3), y^(1/3)) 
+. * gen neglog_y = sign(y) * log(1 + abs(y))
+. 
+. *** Cube root 
+. 
+. capture drop OPPL_cube
+{txt}
+{com}. gen OPPL_cube = cond(OPPL < 0 , -(-OPPL)^(1/3), OPPL^(1/3))
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_cube "GEN: OPPL, in thousand, win = .001, then cube root"
+{txt}
+{com}. * Looking at a histogram of this it seems to do a great job in compressing the data. 
+. * I added 0.1% winsorizing to deal with the few outliers. 
+. 
+. *** Neglog 
+. 
+. gen OPPL_neglog = sign(OPPL) * log(1 + abs(OPPL))
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_neglog "GEN: OPPL, in thousand, win = .001, neglog"
+{txt}
+{com}. 
+. **************************************
+. 
+. *** Taking logs.
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         replace `var' = ln(`var')
+{txt}  3{com}.         local lab: variable label `var'
+{txt}  4{com}.         local newlab = "`lab'" + ", in log"
+{txt}  5{com}.         label var `var' "`newlab'"
+{txt}  6{com}. {c )-}
+{txt}(1,629,841 real changes made)
+(1,626,660 real changes made, 185,899 to missing)
+(688,988 real changes made, 44,337 to missing)
+(1,140,952 real changes made, 379,543 to missing)
+(831,544 real changes made, 998 to missing)
+
+{com}. *
+. 
+{txt}end of do-file
+
+{com}. hist OPPL
+{txt}(bin={res}58{txt}, start={res}-6.9077553{txt}, width={res}.36076823{txt})
+{res}
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. xtset unique_id year, yearly
+{res}{txt}{col 8}panel variable:  {res}unique_id (strongly balanced)
+{txt}{col 9}time variable:  {res}{col 25}year, 2002 to 2012
+{txt}{col 17}delta:  {res}1 year
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. capture ssc install writepsfrag, all replace
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. use "$project\temp\firms2002.dta", clear
+{txt}(Written by R.              )
+
+{com}. set more off
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. * Add WDI data
+. merge m:1 country_STD year using "$project\data\WDI_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str22, now str32 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,827
+{txt}{col 9}from master{col 30}{res}           1,276{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,551{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,732{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                          Taiwan {c |}{res}      1,276      100.00      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}      1,276      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Taiwan
+{txt}(2,827 observations deleted)
+
+{com}. 
+. * Taiwan is missing
+. drop _merge 
+{txt}
+{com}. 
+. 
+. * Add TI_CPI
+. merge m:1 country_STD year using "$project\data\TI_CPI_clean.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,276
+{txt}{col 9}from master{col 30}{res}              33{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,243{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+
+{txt}Country names, standardized with {c |}
+                         kountry {c |}      Freq.     Percent        Cum.
+{hline 33}{c +}{hline 35}
+                         Bermuda {c |}{res}         11       33.33       33.33
+{txt}                          Monaco {c |}{res}         22       66.67      100.00
+{txt}{hline 33}{c +}{hline 35}
+                           Total {c |}{res}         33      100.00
+{txt}
+{com}. keep if _merge == 3 // we lose Bermuda and Monaco
+{txt}(1,276 observations deleted)
+
+{com}. 
+. * Bermuda and Monaco are missing.
+. drop _merge 
+{txt}
+{com}. 
+. * Add taxes
+. merge m:1 country_STD year using "$project\data\OECD_taxes_clean.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+country_STD was 
+str32, now str44 to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,881
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,881{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}       2,129,699{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. tab country_STD if _merge == 1
+{txt}no observations
+
+{com}. keep if _merge == 3 // we don't lose anything
+{txt}(1,881 observations deleted)
+
+{com}. drop _merge 
+{txt}
+{com}. 
+. *** Clean some labels
+. label var bvdid "ORBIS: bvdid"
+{txt}
+{com}. label var year "Year, 2002-2012"
+{txt}
+{com}. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}.         
+.         local lab: variable label `var'
+{txt}  3{com}.         local newlab = "ORBIS: " + "`lab'"
+{txt}  4{com}.         label var `var' "`newlab'"
+{txt}  5{com}. 
+. {c )-}
+{txt}
+{com}. *
+. 
+. label var NACEcore4 "ORBIS: NACE Rev. 2 core code, 4 digits"
+{txt}
+{com}. label var OECD_MY_cit "OECD: corporate income tax rate"
+{txt}
+{com}. label var OECD_MY_com "OECD: combined corporate income tax rate"
+{txt}
+{com}. label var TF_tax_com "Tax foundation: combined corporate income tax rate"
+{txt}
+{com}. label var country_STD "GEN: country names, standardized with kountry"
+{txt}
+{com}. 
+. *** Panel setup
+. 
+. egen unique_id = group(bvdid)
+{txt}
+{com}. label var unique_id "GEN: unique bvdid as number"
+{txt}
+{com}. 
+. *** Scale all financials to thousands
+. 
+. order bvdid year EMPL
+{txt}
+{com}. 
+. foreach var of varlist TOAS-STAF {c -(}
+{txt}  2{com}. 
+.         replace `var' = `var'/1000
+{txt}  3{com}.         local lab: variable label `var'
+{txt}  4{com}.         local newlab = "`lab'" + ", in thousand"
+{txt}  5{com}.         label var `var' "`newlab'"
+{txt}  6{com}. 
+. {c )-}
+{txt}(1,629,608 real changes made)
+(1,441,098 real changes made)
+(644,955 real changes made)
+(1,137,041 real changes made)
+(831,532 real changes made)
+
+{com}. *
+. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. gen OPPL_asinh = asinh(OPPL)
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_asinh "GEN: Inverse hyperbolic sine of OPPL, in thousand, win = .001"
+{txt}
+{com}. 
+. * From Statalist, a person named Scott:
+. * Link: https://www.stata.com/statalist/archive/2005-03/msg00964.html
+. 
+. *> An inverse hyperbolic sine transformation is:
+. *>  IHS = log(z + sqrt(z^z + 1))
+. *>
+. *> It is an alternative to log transformations when some of
+. *> the variables take on zero or negative values and as
+. *> an alternative to the Box-Cox when variables are zero or
+. *> negative.
+. *>
+. *>
+. *> See, for example:
+. *>
+. *> Layton, David F, 2001. "Alternative Approaches for Modeling
+. *> Concave Willingness to Pay Functions in Conjoint Valuation,"
+. *> American Journalof Agricultural Economics, vol. 83(5), 1314-20.
+. *>
+. *> Burbidge, John B., Lonnie Magee and A. Leslie Robb. 1988 "Alternative
+. *> Transformations to Handle Extreme Values of the Dependent Variable."
+. *>  Journal of the American Statistical Association, vol. 83, 123-127.
+. *>
+. *> Scott
+. 
+. * From Statalist, le monsieur Nick Cox himself:
+. * https://www.statalist.org/forums/forum/general-stata-discussion/general/1372507-inverse-hyperbolic-sine-transformation 
+. 
+. * "For what I imagine to be your problem, consider also cube roots and the neglog transformation."
+. * Code:
+. *
+. * gen curt_y = cond(y < 0 , -(-y)^(1/3), y^(1/3)) 
+. * gen neglog_y = sign(y) * log(1 + abs(y))
+. 
+. *** Cube root 
+. 
+. capture drop OPPL_cube
+{txt}
+{com}. gen OPPL_cube = cond(OPPL < 0 , -(-OPPL)^(1/3), OPPL^(1/3))
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_cube "GEN: OPPL, in thousand, win = .001, then cube root"
+{txt}
+{com}. * Looking at a histogram of this it seems to do a great job in compressing the data. 
+. * I added 0.1% winsorizing to deal with the few outliers. 
+. 
+. *** Neglog 
+. 
+. gen OPPL_neglog = sign(OPPL) * log(1 + abs(OPPL))
+{txt}(988,747 missing values generated)
+
+{com}. label var OPPL_neglog "GEN: OPPL, in thousand, win = .001, neglog"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. replace NACEcore4 = "" if NACEcore4 == "NA"
+{txt}(158,058 real changes made)
+
+{com}. 
+. capture drop NACEcore2
+{txt}
+{com}. gen NACEcore2 = substr(NACEcore4,1,2) // for sector dummies
+{txt}(634,011 missing values generated)
+
+{com}. tab NACEcore2, miss
+
+  {txt}NACEcore2 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+            {c |}{res}    634,011       29.77       29.77
+{txt}         01 {c |}{res}     14,983        0.70       30.47
+{txt}         02 {c |}{res}      1,239        0.06       30.53
+{txt}         03 {c |}{res}      2,017        0.09       30.63
+{txt}         05 {c |}{res}        518        0.02       30.65
+{txt}         06 {c |}{res}      3,299        0.15       30.81
+{txt}         07 {c |}{res}        440        0.02       30.83
+{txt}         08 {c |}{res}      5,887        0.28       31.10
+{txt}         09 {c |}{res}      2,383        0.11       31.21
+{txt}         10 {c |}{res}     24,092        1.13       32.35
+{txt}         11 {c |}{res}      6,086        0.29       32.63
+{txt}         12 {c |}{res}        605        0.03       32.66
+{txt}         13 {c |}{res}      9,563        0.45       33.11
+{txt}         14 {c |}{res}      7,866        0.37       33.48
+{txt}         15 {c |}{res}      2,684        0.13       33.60
+{txt}         16 {c |}{res}      6,823        0.32       33.92
+{txt}         17 {c |}{res}      9,462        0.44       34.37
+{txt}         18 {c |}{res}      9,777        0.46       34.83
+{txt}         19 {c |}{res}      1,512        0.07       34.90
+{txt}         20 {c |}{res}     21,831        1.03       35.92
+{txt}         21 {c |}{res}      7,191        0.34       36.26
+{txt}         22 {c |}{res}     20,121        0.94       37.21
+{txt}         23 {c |}{res}     18,127        0.85       38.06
+{txt}         24 {c |}{res}     11,659        0.55       38.61
+{txt}         25 {c |}{res}     35,749        1.68       40.28
+{txt}         26 {c |}{res}     19,151        0.90       41.18
+{txt}         27 {c |}{res}     15,421        0.72       41.91
+{txt}         28 {c |}{res}     35,866        1.68       43.59
+{txt}         29 {c |}{res}     10,716        0.50       44.09
+{txt}         30 {c |}{res}      5,069        0.24       44.33
+{txt}         31 {c |}{res}      5,444        0.26       44.59
+{txt}         32 {c |}{res}     17,258        0.81       45.40
+{txt}         33 {c |}{res}      7,767        0.36       45.76
+{txt}         35 {c |}{res}     14,599        0.69       46.45
+{txt}         36 {c |}{res}      1,994        0.09       46.54
+{txt}         37 {c |}{res}        901        0.04       46.58
+{txt}         38 {c |}{res}      8,904        0.42       47.00
+{txt}         39 {c |}{res}        579        0.03       47.03
+{txt}         41 {c |}{res}     62,564        2.94       49.97
+{txt}         42 {c |}{res}     11,280        0.53       50.50
+{txt}         43 {c |}{res}     32,334        1.52       52.02
+{txt}         45 {c |}{res}     30,759        1.44       53.46
+{txt}         46 {c |}{res}    172,608        8.10       61.56
+{txt}         47 {c |}{res}     46,978        2.21       63.77
+{txt}         49 {c |}{res}     22,465        1.05       64.83
+{txt}         50 {c |}{res}      7,490        0.35       65.18
+{txt}         51 {c |}{res}      2,274        0.11       65.28
+{txt}         52 {c |}{res}     26,243        1.23       66.52
+{txt}         53 {c |}{res}      1,295        0.06       66.58
+{txt}         55 {c |}{res}     17,270        0.81       67.39
+{txt}         56 {c |}{res}     11,597        0.54       67.93
+{txt}         58 {c |}{res}     18,104        0.85       68.78
+{txt}         59 {c |}{res}      7,966        0.37       69.16
+{txt}         60 {c |}{res}      2,888        0.14       69.29
+{txt}         61 {c |}{res}      9,301        0.44       69.73
+{txt}         62 {c |}{res}     32,484        1.53       71.25
+{txt}         63 {c |}{res}      4,462        0.21       71.46
+{txt}         64 {c |}{res}    110,570        5.19       76.66
+{txt}         65 {c |}{res}     14,595        0.69       77.34
+{txt}         66 {c |}{res}     21,926        1.03       78.37
+{txt}         68 {c |}{res}    129,481        6.08       84.45
+{txt}         69 {c |}{res}      5,695        0.27       84.72
+{txt}         70 {c |}{res}    107,993        5.07       89.79
+{txt}         71 {c |}{res}     22,014        1.03       90.82
+{txt}         72 {c |}{res}      5,846        0.27       91.10
+{txt}         73 {c |}{res}     14,457        0.68       91.78
+{txt}         74 {c |}{res}     13,347        0.63       92.40
+{txt}         75 {c |}{res}        209        0.01       92.41
+{txt}         77 {c |}{res}     14,395        0.68       93.09
+{txt}         78 {c |}{res}      8,010        0.38       93.46
+{txt}         79 {c |}{res}      7,386        0.35       93.81
+{txt}         80 {c |}{res}      2,892        0.14       93.95
+{txt}         81 {c |}{res}      6,068        0.28       94.23
+{txt}         82 {c |}{res}     50,040        2.35       96.58
+{txt}         84 {c |}{res}      1,667        0.08       96.66
+{txt}         85 {c |}{res}      7,984        0.37       97.03
+{txt}         86 {c |}{res}     14,008        0.66       97.69
+{txt}         87 {c |}{res}      8,396        0.39       98.09
+{txt}         88 {c |}{res}      3,935        0.18       98.27
+{txt}         90 {c |}{res}      3,352        0.16       98.43
+{txt}         91 {c |}{res}        767        0.04       98.46
+{txt}         92 {c |}{res}      3,063        0.14       98.61
+{txt}         93 {c |}{res}      7,968        0.37       98.98
+{txt}         94 {c |}{res}      2,745        0.13       99.11
+{txt}         95 {c |}{res}      1,063        0.05       99.16
+{txt}         96 {c |}{res}     17,180        0.81       99.97
+{txt}         97 {c |}{res}        136        0.01       99.97
+{txt}         98 {c |}{res}        318        0.01       99.99
+{txt}         99 {c |}{res}        237        0.01      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}  2,129,699      100.00
+{txt}
+{com}. capture drop sectoryear2
+{txt}
+{com}. egen sectoryear2 = group(NACEcore2 year)
+{txt}(634011 missing values generated)
+
+{com}. 
+. capture drop NACEcore1
+{txt}
+{com}. gen NACEcore1 = substr(NACEcore4,1,1) // for sector dummies
+{txt}(634,011 missing values generated)
+
+{com}. tab NACEcore1, miss
+
+  {txt}NACEcore1 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+            {c |}{res}    634,011       29.77       29.77
+{txt}          0 {c |}{res}     30,766        1.44       31.21
+{txt}          1 {c |}{res}     78,470        3.68       34.90
+{txt}          2 {c |}{res}    195,832        9.20       44.09
+{txt}          3 {c |}{res}     62,515        2.94       47.03
+{txt}          4 {c |}{res}    378,988       17.80       64.83
+{txt}          5 {c |}{res}     92,239        4.33       69.16
+{txt}          6 {c |}{res}    331,402       15.56       84.72
+{txt}          7 {c |}{res}    193,657        9.09       93.81
+{txt}          8 {c |}{res}     94,990        4.46       98.27
+{txt}          9 {c |}{res}     36,829        1.73      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}  2,129,699      100.00
+{txt}
+{com}. capture drop sectoryear1
+{txt}
+{com}. egen sectoryear1 = group(NACEcore1 year)
+{txt}(634011 missing values generated)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var NACEcore2 "GEN: NACE Rev. 2 core code, 2 digits"
+{txt}
+{com}. label var sectoryear2 "GEN: Sector-Year FE identifier, based on 2-digit NACE industry"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. label var NACEcore1 "GEN: NACE Rev. 2 core code, 1 digit"
+{txt}
+{com}. label var sectoryear1 "GEN: Sector-Year FE identifier, based on 1-digit NACE industry"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\PGROSS~1.RWI\AppData\Local\Temp\2\STD00000000.tmp"
+{txt}
+{com}. 
+. ******************
+. *** Title: Add the title of the project
+. ******************
+. 
+. clear all
+{txt}
+{com}. clear mata
+{txt}
+{com}. set more off
+{txt}
+{com}. set type double
+{txt}
+{com}. capture log close
+{smcl}
+{com}{sf}{ul off}
