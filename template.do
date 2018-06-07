@@ -105,7 +105,31 @@ log close
 *
 *** Add a description of this part
 ****************************************************************************
+***
 
+* Add: top 20 selection for the guo countries
+
+capture drop n 
+capture drop tag 
+capture drop top20ties 
+capture drop top20
+
+bysort newcountry_guo: gen n=_N // replace newcountry_guo here with any variable!
+bysort n newcountry_guo: gen tag=(_n==1)
+replace tag = sum(tag)
+sum tag , meanonly
+gen top20ties = (tag>=(`r(max)'-20))
+sum n if tag==(`r(max)'-20), meanonly
+replace top20ties = 1 if n==`r(max)'
+
+***
+
+*** Mirrorchart
+
+graph hbar (sum) counter_C counter_T, $graphstyle over(newcountry, label(labsize(small))) stack ///
+		legend(label(1 "Control group") label(2 "Treatment group")) ytitle("Share of firms") ///
+		title("Firm locations, Control vs. Treatment group", size(medium))
+	
 *** Template for generating a figure with latex font:
 
 graph bar (asis) stable_p stack, stack ///
