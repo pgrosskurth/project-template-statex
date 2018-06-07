@@ -6,6 +6,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amstext}
+\usepackage{tabularx}
 \usepackage{graphicx}
 \usepackage{graphics} %for resizebox
 \usepackage{xcolor}
@@ -20,7 +21,7 @@
 %\usepackage{a4wide}
 \usepackage{threeparttable}
 \usepackage[countmax]{subfloat}
-%\usepackage[capposition=top]{floatrow} %for notes an figures
+%\usepackage[capposition=top]{floatrow} %for notes and figures
 \usepackage{float}             % Stellt die Option [H] fuer Floats zur Verfgung
 \usepackage{eurosym} %um Eurozeichen darzusellen
 %%% Doc: No Documentation
@@ -32,17 +33,37 @@
 \usepackage{mdframed}
 % Defines a \FloatBarrier command, beyond which floats may not
 % pass; useful, for example, to ensure all floats for a section
-% appear before the next \section command.
+% appear before the next \section command. 
 
 \usepackage[
 	section		% "\section" command will be redefined with "\FloatBarrier"
 ]{placeins}
 
 \usepackage{afterpage}
+\usepackage{adjustbox}
+
+\usepackage[hang, flushmargin, bottom]{footmisc}
+
+\makeatletter                                                                 
+	\def\footnoterule{\kern-6\p@        % you can put other values to increase vertical space between rule and notes (just try out); difference between the values after "kern" is the width of the rule!
+	\hrule \@width 2in \kern 5.7\p@}  % the in value is the length of the footnoterule
+\makeatother
+
+\addtolength{\skip\footins}{2pt}    % vertical space between rule and main text
+\setlength{\footnotesep}{4pt}  % vertical space between footnotes
+
+\let\oldfootnote\footnote
+\def\footnote{\ifhmode\unskip\fi\oldfootnote}
+
+\usepackage{microtype}
 
 \usepackage{geometry}
 \geometry{a4paper,left=30mm, right=30mm, top=30mm, bottom=30mm}
 
+\usepackage{titling}
+\setlength{\thanksmarkwidth}{4pt}
+\thanksfootextra{\hspace*{-1em}}{}
+\setlength{\thanksmargin}{0em}
 
 \usepackage[latin1]{inputenc}
 % \usepackage[T1]{fontenc} % Makes T small. disabled.
@@ -50,14 +71,14 @@
 %%% Doc: ftp://tug.ctan.org/pub/tex-archive/macros/latex/contrib/hyperref/doc/manual.pdf
 \usepackage[
 %   % Farben fuer die Links
-   breaklinks,
+   %breaklinks,
    colorlinks,         % Links erhalten Farben statt Kaeten
    urlcolor=purple,
    citecolor=blue,
    linkcolor=violet,
    bookmarks=true,          % Erzeugung von Bookmarks fuer PDF-Viewer
    % PDF Informationen
-   pdftitle={Add a pdf title},             % Titel
+   pdftitle={Add title.},             % Titel
    pdfauthor={Philipp Grosskurth}            % Autor
    pdfcreator={LaTeX, hyperref, KOMA-Script}, % Ersteller
    pdfkeywords={PG},
@@ -79,7 +100,10 @@
 %\doublespacing		% 2-facher Abstand
 % hereafter load 'typearea' again
 
-
+\global\mdfdefinestyle{exampledefault}{%
+linecolor=black,linewidth=1pt,%
+leftmargin=0.5cm,rightmargin=0.5cm,skipabove=0.5cm,skipbelow=1cm,innertopmargin=0.5cm,innerbottommargin=0.5cm,innerleftmargin=0.5cm, innerrightmargin=0.5cm
+}
 
 \bibliographystyle{joephd3}
 %\DeclareGraphicsRule{.eps}{eps}{*}{}
@@ -115,12 +139,11 @@
 \begin{document}
 \singlespacing
 
-\title{Add a title here.\thanks{Add acknowledgements here.}}
+\title{Add title.\thanks{Add thanks.}}
 
-%\date{-- Preliminary version -- \\ -- Please do not cite or distribute -- }
-\date{Add a date here}
+\date{February 2018}
 
-\author{Philipp Gro{\ss}kurth\thanks{RWI, philipp.grosskurth@rwi-essen.de}}
+\author{Philipp Gro{\ss}kurth\thanks{RWI -- Leibniz-Institute for Economic Research, philipp.grosskurth@rwi-essen.de.}}
 
 \maketitle\thispagestyle{empty}
 
@@ -133,13 +156,19 @@
 
 
 %\newpage
-\begin{abstract}
 
-\noindent\textbf{Abstract}: Add an abstract here.
+
+\begin{abstract}
+\begin{center}
+\textbf{Preliminary version} \\
+\hfill
+\end{center}
+
+\noindent\textbf{Abstract}: Add abstract.
 \\
 
-\noindent\textbf{Keywords}: Some keywords \\
-\noindent\textbf{JEL Classification}: STFU  \\
+\noindent\textbf{Keywords}: Add keywords. \\
+\noindent\textbf{JEL Classification}: Add codes. \\
 
 \end{abstract}
 
@@ -150,12 +179,11 @@
 \pagestyle{plain}
 \pagenumbering{arabic}
 
-\tableofcontents
-\newpage
+%\tableofcontents
+%\newpage
 %$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 \section{Introduction}\label{sec:introduction}
 %$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
 
 The Witness is a 3D puzzle video game developed and published by Thekla, Inc.[a] It was released for Microsoft Windows and PlayStation 4 in January 2016, and later for Xbox One, Nvidia Shield, macOS, and iOS. Inspired by Myst, the game involves the exploration of an open world island filled with natural and man-made structures. The player progresses by solving puzzles, which are based on interactions with mazes presented on panels around the island or hidden within the environment. The player will have to determine the rules of each puzzle from visual clues and audio recordings scattered around the island.
 

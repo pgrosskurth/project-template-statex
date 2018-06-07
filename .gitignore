@@ -222,3 +222,10 @@ TSWLatexianTemp*
 # .ps files aren't necessary either
 *.ps
 
+# folders to exclude
+
+/data/
+/output/
+/temp/
+/logs/
+/papers/
