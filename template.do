@@ -126,6 +126,17 @@ replace top20ties = 1 if n==`r(max)'
 
 *** Mirrorchart
 
+* Calculate the group sizes to normalize the mirrored indicators
+capture drop container_T
+egen container_T = count(bvdid) if _treated == 1
+
+capture drop container_C
+egen container_C = count(bvdid) if _treated != 1
+
+* Normalize the mirrored indicators
+replace counter_T = counter_T/container_T
+replace counter_C = counter_C/container_C
+
 graph hbar (sum) counter_C counter_T, $graphstyle over(newcountry, label(labsize(small))) stack ///
 		legend(label(1 "Control group") label(2 "Treatment group")) ytitle("Share of firms") ///
 		title("Firm locations, Control vs. Treatment group", size(medium))
@@ -536,6 +547,9 @@ timer clear
 *** Bonus Code
 ****************************************************************************
 /*
+local loadname2 = string(`loadname', "%6.1f") // correction for rounding errors.
+
+
 ******
 *** Correcting for duplicates
 
