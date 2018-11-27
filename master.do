@@ -21,13 +21,47 @@ global project "N:\Berlin - Freie Forschung\pgrosskurth\synchronized\project-tem
 
 global noise "qui"
 
-global graphstyle "graphregion(color(white)) legend(region(lcolor(white))) bgcolor(white) ylabel(, glwidth(thin) glpattern(dash) glcolor(gs10))"
+global noise "qui"
+
+# d ;
+global graphstyle "graphregion(margin(right) color(white)) 
+	legend(region(lcolor(white))) 
+	bgcolor(white) 
+	ylabel(, glwidth(thin) glpattern(dash) glcolor(gs10)) 
+	bar(1, color(edkblue) lcolor(black)) bar(2, color(ebg) lcolor(black)) bar(3, color(ltbluishgray) lcolor(black)) 
+	title("", margin(medium)) b1title("", margin(small))
+	ytitle("", margin(medium))"
+	;
+# d cr
 
 ******************
 *** Install required packages
 ******************
 
-capture ssc install writepsfrag
+capture ssc install writepsfrag, all replace
+capture ssc install reghdfe, all replace
+
+***
+
+run "$project\code\sutexPG.ado" // needed to produce summary tables in analysis-loops
+run "$project\code\taboutPG.ado" // needed to produce summary tables in analysis-loops
+
+capture program drop timeon
+program timeon
+args start
+global starttime "`start'"
+timer clear
+timer on 1
+end
+
+capture program drop timeoff
+program timeoff
+timer off 1
+qui timer list
+di "started " "$starttime" " $S_DATE"
+di "finished" " $S_TIME  $S_DATE"
+di "duration: " round(r(t1)/60) " mins or " r(t1)/3600 " hours"  
+end
 
 ***
 
