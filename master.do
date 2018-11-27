@@ -1,8 +1,4 @@
 
-******************
-*** Title: Add the title of the project
-******************
-
 clear all
 clear mata
 set more off
