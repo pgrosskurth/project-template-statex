@@ -149,26 +149,32 @@ title("Ownership information stability, 2012-2002") b1title("Year", margin(small
 $graphstyle bar(1, color(edkblue)) bar(2, color(maroon)) legend(rows(1))  ///
 ytitle("Share of constant information", margin(medium)) 
 
-graph export "$project\output\figurename.eps", replace 
-graph export "$project\output\figurename.png", replace height(1000)
-writepsfrag2 "$project\output\figurename.eps" using "$project\output\figurename.tex", replace textsize(\normalsize) // needs Latex filepath!
+graph export "$project\output\dofilename-something-figurename.eps", replace 
+graph export "$project\output\dofilename-something-figurename.png", replace height(1000)
+writepsfrag2 "$project\output\dofilename-something-figurename.eps" using "$project\output\dofilename-something-figurename.tex", replace textsize(\normalsize) // needs Latex filepath!
 
 
 
 *** Template for producing a table of estimates in latex
 * Adjust this part according to the number of estimates and coefficients (table width)
 * \begin{tabular}{@{\extracolsep{\fill} }l*{10}{Cd{2.6}}}
+* change the 10 to 7 + number of results
+* copy "\multicolumn{1}{c}{@}" for every additional stat
+* adjust format for each stat in the same way
+* DON'T FORGET TO ADJUST THE LABEL!
+* Don't use _ in the filename or the label!
 
 # d ;
 esttab m1 m2 m3
-	using "$project\output\tablename.tex" ,
+	using "$project\output\dofilename-something-tablename.tex" ,
 	booktabs replace not b(3) star( * 0.10 ** 0.05 *** 0.01 ) 
 	mtitles("ln(TFAS)" "ln(TFAS)" "ln(TFAS)")
 	keep (treat1 treat2 MNE_2012Xtreat1 MNE_2012Xtreat2 MNE_A_2012Xtreat1 MNE_A_2012Xtreat2 MNE_B_2012Xtreat1 MNE_B_2012Xtreat2) ///
-	stats(N_g, labels("Firms") layout("\multicolumn{1}{c}{@}") fmt(0) ) substitute(\_ _) label
+	stats(N_clust N r2_within, labels("Firms" "Obs." "Within R Squared") layout("\multicolumn{1}{c}{@}" "\multicolumn{1}{c}{@}" "\multicolumn{1}{c}{@}") fmt(%9.0g %9.0g %9.3f)) substitute(\_ _) label
 
 prehead( 
-	\label{tab:d1m5TFAS}
+	\caption{`ADD CAPTION HERE!'}
+	\label{tab:`ADD LABEL HERE!'}
 	\resizebox{!}{!}{
 	\begin{tabular}{@{\extracolsep{\fill} }l*{10}{Cd{2.6}}}
 	\toprule 
@@ -202,6 +208,90 @@ timer clear
 
 * Numbers: ASCII generator, ogre type font
 
+**************************************
+
+****************************************************************************
+
+
+*
+**
+***
+**
+*
+
+
+*  ____  
+* |  _ \ 
+* | |_) |
+* |  _ < 
+* | |_) |
+* |____/ 
+*
+*** Add a description of this part
+****************************************************************************
+
+****************************************************************************
+
+
+*
+**
+***
+**
+*
+
+
+*   _____ 
+*  / ____|
+* | |     
+* | |     
+* | |____ 
+*  \_____|
+*
+*** Add a description of this part
+****************************************************************************
+
+****************************************************************************
+
+
+*
+**
+***
+**
+*
+
+
+*  _____  
+* |  __ \ 
+* | |  | |
+* | |  | |
+* | |__| |
+* |_____/ 
+*
+*** Add a description of this part
+****************************************************************************
+
+****************************************************************************
+
+
+*
+**
+***
+**
+*
+
+
+*  ______ 
+* |  ____|
+* | |__   
+* |  __|  
+* | |____ 
+* |______|
+*
+*** Add a description of this part
+****************************************************************************
+
+**************************************
+
 ***
 *  _ 
 * / |
@@ -210,6 +300,8 @@ timer clear
 * |_|
 *
 ***  Add a description of this part
+
+**************************************
 
 ***
 *  ____  
@@ -348,86 +440,6 @@ timer clear
 *** Add a description of this part
 
 		 
-****************************************************************************
-
-
-*
-**
-***
-**
-*
-
-
-*  ____  
-* |  _ \ 
-* | |_) |
-* |  _ < 
-* | |_) |
-* |____/ 
-*
-*** Add a description of this part
-****************************************************************************
-
-****************************************************************************
-
-
-*
-**
-***
-**
-*
-
-
-*   _____ 
-*  / ____|
-* | |     
-* | |     
-* | |____ 
-*  \_____|
-*
-*** Add a description of this part
-****************************************************************************
-
-****************************************************************************
-
-
-*
-**
-***
-**
-*
-
-
-*  _____  
-* |  __ \ 
-* | |  | |
-* | |  | |
-* | |__| |
-* |_____/ 
-*
-*** Add a description of this part
-****************************************************************************
-
-****************************************************************************
-
-
-*
-**
-***
-**
-*
-
-
-*  ______ 
-* |  ____|
-* | |__   
-* |  __|  
-* | |____ 
-* |______|
-*
-*** Add a description of this part
-****************************************************************************
-
 ****************************************************************************
 
 
@@ -711,7 +723,6 @@ unicode translate *
 }
 
 
-
 * Finding Top 10 values
 
 sysuse auto
@@ -735,3 +746,67 @@ replace top10ties = 1 if n==`r(max)'
 
 table mpg top10
 table mpg top10ties
+
+*** Print what you see
+* 1. Add loop that constructs the strings to be printed
+* 2. Print labels instead of varnames
+Denmark & 2002 & 558 \\
+
+* Relabeling
+forvalues year = 2002(1)2012 {
+	
+	label var year`year' "`year'"
+	
+}
+*
+
+local filename myfile
+file open `filename' using "$project\temp\staticyears.tex", write replace `opt'
+
+	*** Table header
+	
+	file write `filename' "\label{tab:staticyears}" _n
+
+	file write `filename' "\resizebox{\linewidth}{!}{" _n
+	file write `filename' "\begin{tabular}{@{\extracolsep{\fill}}l*{29}{Cd{2.6}}}" _n
+	
+	
+	* Write headline with var labels
+	foreach var of varlist _all {
+		
+		local lab: variable label `var'
+		local item = "`item'" + "`lab'" + "&" 
+		
+	}
+	file write `filename' "`item' \\" _n
+	file write `filename' "\toprule" _n
+	
+	* Write the rest of the dataset, line by line
+	
+	local maxobs = (_N-1)
+	forvalues i = 1(1)`maxobs' {
+		local item
+		foreach var of varlist _all {
+		
+			local value = `var'[`i']
+			local item = "`item'" + "`value'" + "&" 
+		}
+		file write `filename' "`item' \\" _n
+	}
+	
+	file write `filename' "\bottomrule" _n	
+	
+	local item
+	foreach var of varlist _all {
+		
+		local value = `var'[_N]
+		local item = "`item'" + "`value'" + "&" 
+	}
+	file write `filename' "`item' \\" _n
+	
+
+	file write `filename' "\end{tabular} }" _n
+	
+file close `filename' 
+	
+* We need new code for this. 
