@@ -1,4 +1,4 @@
-
+﻿
 ******************
 *** Title: Add the title of the project
 ******************
@@ -669,10 +669,10 @@ forvalues i=1/`varnum' {
 local newvarnum3: list sizeof newvars3
 
 * Loop to replace the old variables with the contents of the macro
-forvalues i=1/`newvarnum3' {
-  local oldvar3: word `i' of `oldvars3'
-  local newvar3: word `i' of `newvars3'
-  rename `oldvar3' `newvar3'
+forvalues i=1/`newvarnum' {
+  local oldvar: word `i' of `oldvars'
+  local newvar: word `i' of `newvars'
+  rename `oldvar' `newvar'
   
  * Optional output to check the results
  * di "`i'"
