@@ -1,8 +1,4 @@
 
-******************
-*** Title: Add the title of the program/routine/subproject
-******************
-
 set more off
 set type double
 version 14

@@ -1,4 +1,4 @@
-
+﻿
 ******************
 *** Title: Add the title of the project
 ******************
@@ -559,7 +559,35 @@ timer clear
 *** Bonus Code
 ****************************************************************************
 /*
+*** Replacing all variable labels with the values of the first row
+
+* Extracting the variable names from of the first row
+unab oldvars: _all
+
+* Counting the number of variables, storing the result in varnum
+describe
+local varnum=r(k)
+
+* Collecting names of vars from first row and fix them as needed
+forvalues i=1/`varnum' {
+
+	* Write variable i in a new macro oldvar
+	local oldvar: word `i' of `oldvars'
+	  
+	* Capture the value from first row of variable oldvar
+	local newvar=`oldvar' in 1
+
+	label var `oldvar' "`newvar'"
+
+}
+* 
+
+
 local loadname2 = string(`loadname', "%6.1f") // correction for rounding errors.
+
+*** Getting the value of a variable into a local:
+
+valuesof
 
 
 ******
@@ -641,10 +669,10 @@ forvalues i=1/`varnum' {
 local newvarnum3: list sizeof newvars3
 
 * Loop to replace the old variables with the contents of the macro
-forvalues i=1/`newvarnum3' {
-  local oldvar3: word `i' of `oldvars3'
-  local newvar3: word `i' of `newvars3'
-  rename `oldvar3' `newvar3'
+forvalues i=1/`newvarnum' {
+  local oldvar: word `i' of `oldvars'
+  local newvar: word `i' of `newvars'
+  rename `oldvar' `newvar'
   
  * Optional output to check the results
  * di "`i'"
@@ -693,6 +721,31 @@ Oder alle Dateien im aktiven Pfad konvertieren:
 unicode translate *
 */
 }
+
+
+* Finding Top 10 values
+
+sysuse auto
+bysort mpg: gen n=_N
+bysort n mpg: gen top10=(_n==1)
+replace top10 = sum(top10)
+sum top10, meanonly
+replace top10 = (top10>=(`r(max)'-9))
+
+
+To flag the top 10, along with any additional that have the same frequency as the 10th:
+
+bysort mpg: gen n=_N
+bysort n mpg: gen tag=(_n==1)
+replace tag = sum(tag)
+sum tag , meanonly
+gen top10ties = (tag>=(`r(max)'-9))
+sum n if tag==(`r(max)'-9), meanonly
+replace top10ties = 1 if n==`r(max)'
+
+
+table mpg top10
+table mpg top10ties
 
 *** Print what you see
 * 1. Add loop that constructs the strings to be printed
@@ -757,4 +810,3 @@ file open `filename' using "$project\temp\staticyears.tex", write replace `opt'
 file close `filename' 
 	
 * We need new code for this. 
-* Idea: Just write this shit into a Latex table without toughing it.

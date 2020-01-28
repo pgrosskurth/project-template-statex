@@ -1,8 +1,4 @@
 
-******************
-*** Title: Add the title of the project
-******************
-
 clear all
 clear mata
 set more off
@@ -40,6 +36,17 @@ global graphstyle "graphregion(margin(right) color(white))
 
 capture ssc install writepsfrag, all replace
 capture ssc install reghdfe, all replace
+capture ssc install ftools, all replace
+capture net install st0085_2.pkg, all replace //esttab
+capture net install st0085_1.pkg, all replace 
+capture net install st0183.pkg, all replace 
+capture net install estout.pkg, all replace 
+capture ssc install tabout, all replace
+capture ssc install kountry, all replace
+capture ssc install carryforward, all replace
+capture ssc install dm89_2.pkg, all replace // dropmiss
+capture ssc install dm0090.pkg, all replace // sreshape
+capture net install todate.pkg, all replace
 
 ***
 
